@@ -3,6 +3,7 @@ import { FaRegComment, FaRetweet } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
 import { IoIosStats } from "react-icons/io";
 import { Tweet } from "../../model/models";
+import Icon from "../Common/Icon";
 
 type TweetCardProps = {
   tweet: Tweet;
@@ -16,32 +17,37 @@ const TweetCard: FC<TweetCardProps> = ({ tweet }) => {
       {/* footer (coment retweet likes view share) */}
       {/* viewing comment? */}
       {/* header */}
-      <div>ICON</div>
+      <Icon />
       <div>
-        <div className="flex gap-3">
+        <div className="flex  ">
           <div>
-            <div className="flex gap-3 font-bold">
-              <div>{tweet.author.username}</div>
-              <div>{tweet.author.id}</div>
-              <div>{tweet.createdAt.toISOString().substring(0, 10)}</div>
+            <div className="flex gap-3">
+              <div className="font-semibold">{tweet.author?.username}</div>
+              <div className="font-light">
+                @{tweet.author?.id.substring(0, 5)}
+              </div>
+              <div className="font-light">
+                {new Date(tweet.createdAt)
+                  .toLocaleDateString()
+                  .substring(0, 10)}
+              </div>
             </div>
-            <div className="text-gray-900">{tweet.title}</div>
           </div>
         </div>
         {/* content */}
-        <div className="py-5">{tweet.content}</div>
+        <div className=" ">{tweet.content}</div>
         {/* footer */}
-        <div className="flex gap-3">
-          <div>
+        <div className="flex gap-1 pt-5">
+          <div className="flex items-center justify-center w-10 h-10 rounded-full  hover:bg-gray-400 text-blue-500">
             <FaRegComment />
           </div>
-          <div>
+          <div className="flex items-center justify-center w-10 h-10 rounded-full  hover:bg-gray-400 text-blue-500">
             <FaRetweet />
           </div>
-          <div>
+          <div className="flex items-center justify-center w-10 h-10 rounded-full  hover:bg-gray-400 text-blue-500">
             <AiOutlineHeart />
           </div>
-          <div>
+          <div className="flex items-center justify-center w-10 h-10 rounded-full  hover:bg-gray-400 text-blue-500">
             <IoIosStats />
           </div>
         </div>

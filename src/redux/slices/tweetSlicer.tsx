@@ -31,9 +31,33 @@ export const tweetSlicer = createSlice({
       state.loading = true;
     });
     builder.addCase(action.getAllTweets.fulfilled, (state, action) => {
-      state.allTweets = action.payload;
+      const { status, data } = action.payload;
+      if (status === 200) {
+        state.allTweets = data;
+      } else {
+        if (data instanceof Error) {
+          state.error = data.message;
+        } else {
+          state.error = data.toString();
+        }
+      }
       state.loading = false;
-      console.log(state.allTweets);
+    });
+    builder.addCase(action.addTweet.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(action.addTweet.fulfilled, (state, action) => {
+      const { status, data } = action.payload;
+      if (status === 200) {
+        state.allTweets = [data, ...state.allTweets];
+      } else {
+        if (data instanceof Error) {
+          state.error = data.message;
+        } else {
+          state.error = data.toString();
+        }
+      }
+      state.loading = false;
     });
   },
 });

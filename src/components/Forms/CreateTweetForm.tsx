@@ -3,6 +3,7 @@ import { borderColor } from "../../constant/Colors";
 import { useAppDispatch } from "../../redux/store";
 import { Tweet } from "../../model/models";
 import { addTweet } from "../../redux/actions/tweetAction";
+import Icon from "../Common/Icon";
 
 const CreateTweetForm = () => {
   const dispatch = useAppDispatch();
@@ -35,21 +36,25 @@ const CreateTweetForm = () => {
     setInputText(event.target.value);
   };
   return (
-    <div className={`flex flex-col border-t border-b ${borderColor} py-5 px-5`}>
-      <div className={`flex border-b ${borderColor}`}>
-        <div className="w-2/12">ICON</div>
-        <form className="w-10/12" onSubmit={handleSubmit}>
-          <textarea
-            ref={textAreaRef}
-            value={inputText}
-            onChange={handleInputChange}
-            placeholder="What is happening?"
-            className={`w-full outline-none`}
-          ></textarea>
-          <button>Button </button>
-        </form>
+    <div className={`flex flex-col border-t border-b ${borderColor}`}>
+      <div className={`border-b flex gap-3 py-5 px-3 ${borderColor}`}>
+        <div className=" ">
+          <Icon />
+        </div>
+        <div>
+          <form className="w-11/12" onSubmit={handleSubmit}>
+            <textarea
+              ref={textAreaRef}
+              value={inputText}
+              onChange={handleInputChange}
+              placeholder="What is happening?"
+              className={`w-full outline-none resize-none overflow-hidden`}
+            ></textarea>
+            <button>Button </button>
+          </form>
+          <div>toolbar</div>
+        </div>
       </div>
-      <div>toolbar</div>
     </div>
   );
 };

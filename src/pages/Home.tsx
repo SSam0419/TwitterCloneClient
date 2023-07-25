@@ -6,22 +6,18 @@ import { useAppDispatch, useAppSelector } from "../redux/store";
 
 const Home = () => {
   const dispatch = useAppDispatch();
-  const tweets = useAppSelector((state) => state.allTweets);
-  const loading = useAppSelector((state) => state.loading);
+  const tweets = useAppSelector((state) => state.tweet.allTweets);
   useEffect(() => {
-    dispatch(getAllTweets()).catch((error) => {
-      console.log(error);
-    });
+    dispatch(getAllTweets());
   }, [dispatch]);
   return (
     <div className="">
       <div>Header</div>
-      <div>{loading ?? "tweets[0]?.tweetId"}</div>
       <CreateTweetForm />
 
       <div>
-        {tweets?.map((tweet) => {
-          return <TweetCard tweet={tweet} />;
+        {tweets?.map((tweet, idx) => {
+          return <TweetCard tweet={tweet} key={idx} />;
         })}
       </div>
     </div>

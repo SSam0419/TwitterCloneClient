@@ -1,23 +1,33 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Tweet } from "../model/models";
 
 const domain = "https://localhost:44385/api/Tweet/";
-// https://localhost:44385/api/Tweet/GetAllTweetByDate
-export const getAllTweets = async (): Promise<Tweet[]> => {
-  const data = await axios
+export const getAllTweets = async (): Promise<AxiosResponse<Tweet[]>> => {
+  const response = await axios
     .get(domain + "GetAllTweetByDate")
     .then((response) => {
-      return response.data;
+      return response;
     })
     .catch((error) => {
       console.log(error);
       return error;
     });
-  return data;
+  console.log(response);
+  return response;
 };
 
-export const createTweet = async (tweet: Tweet): Promise<Tweet> => {
-  const response = await axios.post(domain + "addTweet", tweet);
+export const createTweet = async (
+  tweet: Tweet
+): Promise<AxiosResponse<Tweet>> => {
+  const response = await axios
+    .post(domain + "addTweet", tweet)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      console.log(error);
+      return error;
+    });
   console.log(response);
-  return response.data;
+  return response;
 };
