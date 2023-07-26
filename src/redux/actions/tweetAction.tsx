@@ -2,9 +2,9 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as TweetApi from "../../api/TweetApi";
 import { Tweet } from "../../model/models";
 
-export const getAllTweets = createAsyncThunk<Tweet[]>(
+export const getAllTweets = createAsyncThunk(
   "tweet/getAllTweets",
-  async (): Promise<Tweet[]> => {
+  async () => {
     try {
       const response = await TweetApi.getAllTweets();
       return response;
