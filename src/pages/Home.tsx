@@ -2,26 +2,24 @@ import TweetCard from "../components/Cards/TweetCard";
 import CreateTweetForm from "../components/Forms/CreateTweetForm";
 import { useEffect } from "react";
 import { getAllTweets } from "../redux/actions/tweetAction";
-import {  useAppSelector, useAppThunkDispatch } from "../redux/store";
+import {  useAppDispatch, useAppSelector  } from "../redux/store";
  
 
 const Home = () => {
-  const dispatch = useAppThunkDispatch(); 
- 
-  const tweets = useAppSelector((state) => state.tweet.allTweets); 
-  
+  const dispatch = useAppDispatch();
+  const tweets = useAppSelector((state) => state.tweet.allTweets);
   useEffect(() => {
-    dispatch(getAllTweets()) 
+    dispatch(getAllTweets());
   }, [dispatch]);
 
   return (
     <div className="">
-      <div>Header</div> 
+      <div>Header</div>
       <CreateTweetForm />
 
       <div>
-        {tweets && tweets.map((tweet) => {
-          return <TweetCard tweet={tweet} />;
+        {tweets?.map((tweet, idx) => {
+          return <TweetCard tweet={tweet} key={idx} />;
         })}
       </div>
     </div>
