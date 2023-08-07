@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { tweetSlicer } from "./slices/tweetSlicer";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { authSlicer } from "./slices/authSlicer";
 
 export const store = configureStore({
-  reducer: { tweet: tweetSlicer.reducer },
+  reducer: { tweet: tweetSlicer.reducer, auth: authSlicer.reducer },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
