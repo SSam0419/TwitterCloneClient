@@ -54,16 +54,10 @@ const LoginForm = () => {
   }`;
 
   return (
-    <div className="">
-      <div
-        className={`selection:${
-          isRegistering ? "bg-rose-500" : "bg-blue-500"
-        } selection:text-white`}
-      >
+    <div>
+      <div className={`selection:text-white`}>
         <div
-          className={`min-h-screen ${
-            isRegistering ? "bg-rose-100" : "bg-blue-100"
-          } selection:text-white flex justify-center items-center`}
+          className={`min-h-screen election:text-white flex justify-center items-center`}
         >
           <div className="p-8 flex-1">
             <div className="w-80 bg-white rounded-3xl mx-auto overflow-hidden shadow-xl">

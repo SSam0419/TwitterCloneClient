@@ -7,9 +7,9 @@ import Login from "./pages/Login";
 export default function App() {
   return (
     <Routes>
-      <Route index element={<Login />} />
       <Route path="/" element={<MainLayout />}>
-        <Route path="/home" element={<Home />} />
+        <Route index path="/home" element={<Home />} />
+        <Route path="/sign_in" element={<Login />} />
       </Route>
     </Routes>
   );

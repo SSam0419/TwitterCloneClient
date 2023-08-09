@@ -31,7 +31,7 @@ export const SideBarLinks: SideBarLink[] = [
   },
   //My profile page display my profile and my tweets
   {
-    link: "/my_profile",
+    link: "/sign_in",
     icon: CgProfile,
     name: "Profile",
   },

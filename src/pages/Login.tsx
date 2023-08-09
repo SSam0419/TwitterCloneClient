@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import LoginForm from "../components/Forms/LoginForm";
+import GlobalPopUp from "../components/Common/GlobalPopUp";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   return (
-    <div>
-      <div>{<LoginForm />}</div>
-      <div> </div>
-    </div>
+    <GlobalPopUp
+      children={<LoginForm />}
+      onClose={() => {
+        navigate("/");
+      }}
+    />
   );
 };
 
