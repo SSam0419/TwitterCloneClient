@@ -46,6 +46,7 @@ export const signUser = async ({
 };
 
 export const verifyAccesToken = async (): Promise<AxiosResponse> => {
+  axios.defaults.withCredentials = true;
   const response = await axios
     .get(domain + "access_token", {
       headers: {

@@ -25,7 +25,7 @@ const LoginForm = () => {
     switch (loginStatus) {
       case LoginPageStatus.LoginSuccessful:
         setHint("Login Successful!");
-        navigate("/home");
+        navigate("/");
         break;
       case LoginPageStatus.LoginFailed:
         setHint(`Login Failed : ${error}`);

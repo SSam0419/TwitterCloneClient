@@ -17,12 +17,6 @@ export const SideBarLinks: SideBarLink[] = [
     icon: FaHome,
     name: "Home",
   },
-  //Explore Page display tre
-  {
-    icon: AiOutlineSearch,
-    link: "/explore",
-    name: "Explore",
-  },
   //Bookmark Page display saved tweets
   {
     link: "/bookmarks",
