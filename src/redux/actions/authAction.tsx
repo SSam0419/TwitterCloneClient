@@ -9,32 +9,22 @@ interface RegisterUserPayload {
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async ({ username, password }: RegisterUserPayload) => {
-    try {
-      const response = await authApi.registerUser({
-        username: username,
-        password: password,
-      });
-
-      return response;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+    const response = await authApi.registerUser({
+      username: username,
+      password: password,
+    });
+    console.log(response);
+    return response;
   }
 );
 export const signUser = createAsyncThunk(
   "auth/signUser",
   async ({ username, password }: RegisterUserPayload) => {
-    try {
-      const response = await authApi.signUser({
-        username: username,
-        password: password,
-      });
+    const response = await authApi.signUser({
+      username: username,
+      password: password,
+    });
 
-      return response;
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
+    return response;
   }
 );

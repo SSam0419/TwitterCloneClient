@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { registerUser } from "../../api/AuthApi";
-import { useAppSelector } from "../../redux/store";
+import { registerUser, signUser } from "../../redux/actions/authAction";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { LoginPageStatus } from "../../redux/slices/authSlicer";
 import { useNavigate } from "react-router-dom";
+import { FaGithub } from "react-icons/fa";
+import { BiLogoGoogle } from "react-icons/bi";
 
 const LoginForm = () => {
   const { loginStatus, error } = useAppSelector((state) => ({
     loginStatus: state.auth.loginPageStatus,
     error: state.auth.error,
   }));
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
@@ -60,24 +63,12 @@ const LoginForm = () => {
           className={`min-h-screen election:text-white flex justify-center items-center`}
         >
           <div className="p-8 flex-1">
-            <div className="w-80 bg-white rounded-3xl mx-auto overflow-hidden shadow-xl">
+            <div className="w-[750px] bg-white rounded-3xl mx-auto overflow-hidden shadow-xl">
               <div
                 className={`relative h-48 ${
                   isRegistering ? "bg-rose-500" : "bg-blue-500"
-                } rounded-bl-4xl`}
-              >
-                <svg
-                  className="absolute bottom-0"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 1440 320"
-                >
-                  <path
-                    fill="#ffffff"
-                    fill-opacity="1"
-                    d="M0,64L48,80C96,96,192,128,288,128C384,128,480,96,576,85.3C672,75,768,85,864,122.7C960,160,1056,224,1152,245.3C1248,267,1344,245,1392,234.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-                  ></path>
-                </svg>
-              </div>
+                } rounded-bl-4xl mb-9`}
+              ></div>
               <div className="px-10 pt-4 pb-8 bg-white rounded-tr-4xl">
                 <h1 className="text-2xl font-semibold text-gray-900">
                   {isRegistering ? "Join Us!" : "Welcome back!"}
@@ -86,12 +77,22 @@ const LoginForm = () => {
                   className="mt-12"
                   onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
                     e.preventDefault();
-                    if (confirmPassword != password) {
-                      return;
-                    }
+
                     if (isRegistering) {
-                      console.log({ username: username, password: password });
-                      registerUser({ username: username, password: password });
+                      if (confirmPassword != password) {
+                        setHint("Inconsistent Password");
+                        return;
+                      }
+                      dispatch(
+                        registerUser({ username: username, password: password })
+                      );
+                    } else {
+                      dispatch(
+                        signUser({
+                          username: username,
+                          password: password,
+                        })
+                      );
                     }
                   }}
                 >
@@ -165,6 +166,25 @@ const LoginForm = () => {
                 >
                   {isRegistering ? "Login now!" : "Don't have an acount yet?"}
                 </button>
+                <div className="my-4 flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-neutral-300 after:mt-0.5 after:flex-1 after:border-t after:border-neutral-300">
+                  <p className="mx-4 mb-0 text-center font-semibold dark:text-white">
+                    Or
+                  </p>
+                </div>
+                <div className="flex justify-center">
+                  <button className="mr-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                    <div className="flex">
+                      <BiLogoGoogle size={20} className="text-white mr-2" />
+                      Google Login
+                    </div>
+                  </button>
+                  <button className="bg-gray-800 hover:bg-gray-900 text-white font-bold py-2 px-4 rounded">
+                    <div className="flex">
+                      <FaGithub size={20} className="text-white mr-2" />
+                      GitHub Login
+                    </div>
+                  </button>
+                </div>
               </div>
             </div>
           </div>

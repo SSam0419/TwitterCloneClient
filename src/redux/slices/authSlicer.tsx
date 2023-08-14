@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../model/models";
 import * as action from "../actions/authAction";
+import { AxiosError } from "axios";
 
 export const enum LoginPageStatus {
   RegisterSuccessful,
@@ -33,30 +34,26 @@ export const authSlicer = createSlice({
       state.loading = true;
     });
     builder.addCase(action.registerUser.fulfilled, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        state.error = action.payload.response?.data;
+        state.loginPageStatus = LoginPageStatus.RegisterFailed;
+      }
       const { status, data } = action.payload;
       if (status === 200) {
         state.loginPageStatus = LoginPageStatus.RegisterSuccessful;
-      } else {
-        if (data instanceof Error) {
-          state.error = data.message;
-          state.loginPageStatus = LoginPageStatus.RegisterFailed;
-        } else {
-          state.error = data.toString();
-        }
       }
       state.loading = false;
     });
     builder.addCase(action.signUser.fulfilled, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        state.loginPageStatus = LoginPageStatus.LoginFailed;
+        state.error = action.payload.response?.data;
+      }
       const { status, data } = action.payload;
       if (status === 200) {
+        console.log(data);
         state.loginPageStatus = LoginPageStatus.LoginSuccessful;
-      } else {
-        if (data instanceof Error) {
-          state.error = data.message;
-          state.loginPageStatus = LoginPageStatus.LoginFailed;
-        } else {
-          state.error = data.toString();
-        }
+        state.user = data;
       }
       state.loading = false;
     });
