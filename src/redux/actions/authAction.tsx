@@ -28,3 +28,11 @@ export const signUser = createAsyncThunk(
     return response;
   }
 );
+export const verifyAccesToken = createAsyncThunk(
+  "auth/verifyAccesToken",
+  async () => {
+    const response = await authApi.verifyAccesToken();
+
+    return response;
+  }
+);

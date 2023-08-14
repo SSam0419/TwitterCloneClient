@@ -2,8 +2,7 @@ import TweetCard from "../components/Cards/TweetCard";
 import CreateTweetForm from "../components/Forms/CreateTweetForm";
 import { useEffect } from "react";
 import { getAllTweets } from "../redux/actions/tweetAction";
-import {  useAppDispatch, useAppSelector  } from "../redux/store";
- 
+import { useAppDispatch, useAppSelector } from "../redux/store";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -11,6 +10,9 @@ const Home = () => {
   useEffect(() => {
     dispatch(getAllTweets());
   }, [dispatch]);
+  useEffect(() => {
+    dispatch(getAllTweets());
+  }, []);
 
   return (
     <div className="">

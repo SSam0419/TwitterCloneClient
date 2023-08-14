@@ -33,6 +33,9 @@ export const authSlicer = createSlice({
     builder.addCase(action.signUser.pending, (state) => {
       state.loading = true;
     });
+    builder.addCase(action.verifyAccesToken.pending, (state) => {
+      state.loading = true;
+    });
     builder.addCase(action.registerUser.fulfilled, (state, action) => {
       if (action.payload instanceof AxiosError) {
         state.error = action.payload.response?.data;
@@ -54,6 +57,20 @@ export const authSlicer = createSlice({
         console.log(data);
         state.loginPageStatus = LoginPageStatus.LoginSuccessful;
         state.user = data;
+      }
+      state.loading = false;
+    });
+    builder.addCase(action.verifyAccesToken.fulfilled, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        state.loginPageStatus = LoginPageStatus.LoginFailed;
+        state.error = action.payload.response?.data;
+      } else {
+        const { status, data } = action.payload;
+        if (status === 200) {
+          console.log(data);
+          state.loginPageStatus = LoginPageStatus.LoginSuccessful;
+          state.user = data;
+        }
       }
       state.loading = false;
     });

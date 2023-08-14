@@ -1,7 +1,6 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { borderColor } from "../../constant/Colors";
 import { useAppDispatch } from "../../redux/store";
-import { Tweet } from "../../model/models";
 import { addTweet } from "../../redux/actions/tweetAction";
 import Icon from "../Common/Icon";
 import CustomButton from "../Common/CustomButton";
@@ -23,14 +22,8 @@ const CreateTweetForm = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data: Tweet = {
-      tweetId: "",
-      title: "",
-      updatedAt: new Date(Date.now()),
-      createdAt: new Date(Date.now()),
-      content: inputText,
-    };
-    await dispatch(addTweet(data));
+
+    await dispatch(addTweet(inputText));
     setInputText("");
   };
   const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -51,7 +44,7 @@ const CreateTweetForm = () => {
               placeholder="What is happening?"
               className={`w-full outline-none resize-none overflow-hidden`}
             ></textarea>
-           <CustomButton action={handleSubmit} text={"Tweet"}/>
+            <CustomButton action={handleSubmit} text={"Tweet"} />
           </form>
           <div>toolbar</div>
         </div>
