@@ -7,7 +7,7 @@ interface ModalProps {
 const GlobalPopUp: React.FC<ModalProps> = ({ children, onClose }) => {
   return (
     <div
-      className="fixed inset-0 w-full h-full bg-black bg-opacity-40"
+      className="fixed inset-0 w-full h-full bg-black bg-opacity-80 backdrop-blur-sm"
       onClick={() => onClose()}
     >
       <div

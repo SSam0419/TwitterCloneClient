@@ -23,10 +23,10 @@ const TweetCard: FC<TweetCardProps> = ({ tweet }) => {
           <div>
             <div className="flex gap-3">
               <div className="font-semibold">{tweet.author?.username}</div>
-              <div className="font-light">
+              <div className="font-semibold text-neutral-500">
                 @{tweet.author?.id.substring(0, 5)}
               </div>
-              <div className="font-light">
+              <div className="font-semibold text-neutral-500">
                 {new Date(tweet.createdAt)
                   .toLocaleDateString()
                   .substring(0, 10)}

@@ -30,7 +30,7 @@ const CreateTweetForm = () => {
     setInputText(event.target.value);
   };
   return (
-    <div className={`flex flex-col border-t border-b ${borderColor}`}>
+    <div className={`flex flex-col border-t ${borderColor}`}>
       <div className={`border-b flex gap-3 py-5 px-3 ${borderColor}`}>
         <div className=" ">
           <Icon />

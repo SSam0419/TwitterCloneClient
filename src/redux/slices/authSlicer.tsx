@@ -14,7 +14,7 @@ type AuthState = {
   user: User | null;
   loginPageStatus: LoginPageStatus | null;
   error: String | null;
-  loading: boolean;
+  loading: boolean | null;
 };
 
 export const authSlicer = createSlice({
@@ -41,7 +41,7 @@ export const authSlicer = createSlice({
         state.error = action.payload.response?.data;
         state.loginPageStatus = LoginPageStatus.RegisterFailed;
       }
-      const { status, data } = action.payload;
+      const { status } = action.payload;
       if (status === 200) {
         state.loginPageStatus = LoginPageStatus.RegisterSuccessful;
       }

@@ -10,9 +10,11 @@ import { verifyAccesToken } from "./redux/actions/authAction";
 
 export default function App() {
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     dispatch(verifyAccesToken());
   }, []);
+
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>

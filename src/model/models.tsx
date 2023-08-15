@@ -4,7 +4,7 @@ export interface Tweet {
   title: string;
   createdAt: Date;
   updatedAt: Date;
-  author?: User;
+  author: User;
   comments?: TweetComment[];
   likes?: User[];
 }

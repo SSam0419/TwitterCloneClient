@@ -16,9 +16,8 @@ const Home = () => {
 
   return (
     <div className="">
-      <div>Header</div>
+      <div className="p-4 font-semibold">Home</div>
       <CreateTweetForm />
-
       <div>
         {tweets?.map((tweet, idx) => {
           return <TweetCard tweet={tweet} key={idx} />;
