@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 interface ModalProps {
   children: React.ReactNode;
@@ -7,7 +7,7 @@ interface ModalProps {
 const GlobalPopUp: React.FC<ModalProps> = ({ children, onClose }) => {
   return (
     <div
-      className="fixed inset-0 w-full h-full bg-black bg-opacity-80 backdrop-blur-sm"
+      className="fixed inset-0 w-full h-full bg-black bg-opacity-80 backdrop-blur-sm flex items-center justify-center"
       onClick={() => onClose()}
     >
       <div

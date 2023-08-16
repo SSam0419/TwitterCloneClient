@@ -20,6 +20,7 @@ export default function App() {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="/sign_in" element={<Login />} />
+        <Route path="/profile/:user_id" element={<Profile />} />
         <Route path="/profile" element={<Profile />} />
       </Route>
     </Routes>

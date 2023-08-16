@@ -161,7 +161,7 @@ const LoginForm = () => {
                     setIsRegistering((prev) => !prev);
                   }}
                   className={`mt-4 block text-sm text-center font-medium ${
-                    isRegistering ? "text-rose-600" : "text-blue-600"
+                    isRegistering ? "text-rose-600" : "text-sky-600"
                   } hover:underline focus:outline-none focus:ring-2 ${"isRegistering ? focus:ring-rose-500 :focus:ring-blue-500"}`}
                 >
                   {isRegistering ? "Login now!" : "Don't have an acount yet?"}

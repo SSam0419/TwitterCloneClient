@@ -4,8 +4,7 @@ import { SideBarLink, SideBarLinks } from "../utilities/SideBarLinks";
 import ProfileCard from "./Cards/ProfileCard";
 import { borderColor } from "../constant/Colors";
 const SideBar = () => {
-  const linkStyles =
-    "flex items-center py-4 px-4 text-gray-500 hover:bg-gray-200 gap-2 ";
+  const linkStyles = "flex items-center py-4 px-4   hover:bg-gray-200 gap-2 ";
 
   return (
     <div

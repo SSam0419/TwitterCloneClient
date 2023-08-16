@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Tweet } from "../../model/models";
 import * as action from "../actions/tweetAction";
+import { AxiosError } from "axios";
 
 export interface TweetState {
   loading: boolean;
@@ -30,33 +31,44 @@ export const tweetSlicer = createSlice({
     builder.addCase(action.getAllTweets.pending, (state) => {
       state.loading = true;
     });
+    builder.addCase(action.addTweet.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(action.addComment.pending, (state) => {
+      state.loading = true;
+    });
     builder.addCase(action.getAllTweets.fulfilled, (state, action) => {
-      const { status, data } = action.payload;
-      if (status === 200) {
-        state.allTweets = data;
+      if (action.payload instanceof AxiosError) {
+        state.error = action.payload.response?.data;
       } else {
-        if (data instanceof Error) {
-          state.error = data.message;
-        } else {
-          state.error = data.toString();
+        const { status, data } = action.payload;
+        if (status === 200) {
+          state.allTweets = data;
         }
       }
       state.loading = false;
     });
-    builder.addCase(action.addTweet.pending, (state) => {
-      state.loading = true;
-    });
     builder.addCase(action.addTweet.fulfilled, (state, action) => {
-      const { status, data } = action.payload;
-      if (status === 200) {
-        state.allTweets = [data, ...state.allTweets];
+      if (action.payload instanceof AxiosError) {
+        state.error = action.payload.response?.data;
       } else {
-        if (data instanceof Error) {
-          state.error = data.message;
-        } else {
-          state.error = data.toString();
+        const { status, data } = action.payload;
+        if (status === 200) {
+          state.allTweets = [data, ...state.allTweets];
         }
       }
+      state.loading = false;
+    });
+    builder.addCase(action.addComment.fulfilled, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        state.error = action.payload.response?.data;
+      } else {
+        const { status, data } = action.payload;
+        if (status == 200) {
+          //add comment to tweet
+        }
+      }
+
       state.loading = false;
     });
   },

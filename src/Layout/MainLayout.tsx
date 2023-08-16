@@ -9,7 +9,7 @@ const MainLayout = () => {
     loading: state.auth.loading,
   }));
   return (
-    <div className="flex md:px-40 justify-center">
+    <div className="flex md:px-40 justify-center font-semibold">
       <SideBar />
       <div className={`md:w-[600px] py-5 border-r ${borderColor}`}>
         <Outlet />

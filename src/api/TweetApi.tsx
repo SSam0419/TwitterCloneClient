@@ -3,38 +3,30 @@ import { Tweet } from "../model/models";
 
 const domain = "https://localhost:44385/api/Tweet/";
 axios.defaults.withCredentials = true;
+
 export const getAllTweets = async (): Promise<AxiosResponse<Tweet[]>> => {
-  const response = await axios
-    .get(domain + "GetAllTweetByDate")
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      console.log(error);
-      return error;
-    });
-  console.log(response);
+  const response = await axios.get(domain + "GetAllTweetByDate");
   return response;
 };
 
 export const createTweet = async (
   tweetContent: String
 ): Promise<AxiosResponse<Tweet>> => {
-  axios.defaults.withCredentials = true;
-  const response = await axios
-    .post(domain + "AddTweet", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      tweetContent: tweetContent,
-    })
-    .then((response) => {
-      return response;
-    })
-    .catch((error) => {
-      console.log(error);
-      return error;
-    });
-  console.log(response);
+  const response = await axios.post(domain + "AddTweet", {
+    tweetContent: tweetContent,
+  });
+  return response;
+};
+
+export const likeTweet = async (tweetId: String): Promise<AxiosResponse> => {
+  const response = await axios.post(domain + "LikeTweet", {
+    tweetId: tweetId,
+  });
+  return response;
+};
+export const unlikeTweet = async (tweetId: String): Promise<AxiosResponse> => {
+  const response = await axios.post(domain + "UnlikeTweet", {
+    tweetId: tweetId,
+  });
   return response;
 };
