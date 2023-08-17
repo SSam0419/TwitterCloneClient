@@ -1,13 +1,13 @@
 import { IconType } from "react-icons";
 import { FaHome } from "react-icons/fa";
-import { AiOutlineSearch } from "react-icons/ai";
+
 import { BsFillBookmarkFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { BiSolidMessageRounded } from "react-icons/bi";
 export type SideBarLink = {
-  link: string;
+  link: String;
   icon: IconType;
-  name: string;
+  name: String;
 };
 
 export const SideBarLinks: SideBarLink[] = [

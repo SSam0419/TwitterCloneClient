@@ -5,8 +5,8 @@ import { DOMAIN } from "../constant/Url";
 const domain = DOMAIN + "api/Auth/";
 axios.defaults.withCredentials = true;
 interface Credentials {
-  username: string;
-  password: string;
+  username: String;
+  password: String;
 }
 export const registerUser = async ({
   username,

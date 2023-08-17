@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as TweetApi from "../../api/TweetApi";
 import * as CommentApi from "../../api/CommentApi";
 import { useAppDispatch } from "../store";
-import { addLikeTweetCount } from "../slices/tweetSlicer";
+import { addLikeCommentCount, addLikeTweetCount } from "../slices/tweetSlicer";
 import { AxiosError } from "axios";
 
 export const getAllTweets = createAsyncThunk("tweet/getAllTweets", async () => {
@@ -27,7 +27,15 @@ export const addComment = createAsyncThunk(
 );
 export const likeComment = createAsyncThunk(
   "tweet/likeComment",
-  async (commentId: String, thunkApi) => {
+  async (
+    {
+      commentId,
+      userId,
+      tweetId,
+    }: { tweetId: String; userId: String; commentId: String },
+    thunkApi
+  ) => {
+    thunkApi.dispatch(addLikeCommentCount({ commentId, userId, tweetId }));
     const response = await CommentApi.likeComment(commentId);
     return response;
   }
@@ -35,7 +43,7 @@ export const likeComment = createAsyncThunk(
 export const likeTweet = createAsyncThunk(
   "tweet/likeTweet",
   async (
-    { tweetId, userId }: { tweetId: string; userId: string },
+    { tweetId, userId }: { tweetId: String; userId: String },
     thunkApi
   ) => {
     thunkApi.dispatch(addLikeTweetCount({ tweetId, userId }));

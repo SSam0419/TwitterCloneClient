@@ -8,11 +8,17 @@ import { likeComment } from "../../redux/actions/tweetAction";
 
 type TweetCommentCardProps = {
   comment: TweetComment;
+  userId: String | undefined;
   tweetId: String;
 };
 
-const TweetCommentCard: FC<TweetCommentCardProps> = ({ comment, tweetId }) => {
+const TweetCommentCard: FC<TweetCommentCardProps> = ({
+  tweetId,
+  comment,
+  userId,
+}) => {
   const dispatch = useAppDispatch();
+
   return (
     <div className="border-t flex gap-3 py-5 px-3 hover:bg-gray-200 cursor-pointer">
       <Icon />
@@ -38,7 +44,17 @@ const TweetCommentCard: FC<TweetCommentCardProps> = ({ comment, tweetId }) => {
         <div className="flex gap-1 pt-5">
           <div
             className="flex gap-1 items-center justify-center w-10 h-10 rounded-full  hover:bg-gray-400 text-sky-500"
-            onClick={() => dispatch(likeComment(comment.id))}
+            onClick={() => {
+              if (userId) {
+                dispatch(
+                  likeComment({
+                    userId: userId,
+                    commentId: comment.id,
+                    tweetId: tweetId,
+                  })
+                );
+              }
+            }}
           >
             {comment.likes && comment.likes.length}
             <AiOutlineHeart />

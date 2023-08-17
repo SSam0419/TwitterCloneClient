@@ -11,7 +11,7 @@ export interface TweetState {
   modifiedTweet: Tweet | null;
   newTweet: Tweet | null;
   newRetweet: Tweet | null;
-  error: string | null;
+  error: String | null;
 }
 
 export const tweetSlicer = createSlice({
@@ -31,39 +31,57 @@ export const tweetSlicer = createSlice({
       const { tweetId, userId } = payload.payload;
       const tweet = state.allTweets.find((tweet) => tweet.tweetId === tweetId);
       if (tweet) {
-        if (tweet.likes.indexOf(userId) === -1) {
+        if (
+          !tweet.likes.some(
+            (like) => like.tweetId === tweetId && like.userId === userId
+          )
+        ) {
           tweet.likes.length > 0
-            ? (tweet.likes = [userId, ...tweet.likes])
-            : (tweet.likes = [userId]);
+            ? (tweet.likes = [
+                { tweetId: tweetId, userId: userId },
+                ...tweet.likes,
+              ])
+            : (tweet.likes = [{ tweetId: tweetId, userId: userId }]);
         } else {
-          tweet.likes.splice(tweet.likes.indexOf(userId), 1);
+          tweet.likes.splice(
+            tweet.likes.indexOf({ tweetId: tweetId, userId: userId }),
+            1
+          );
         }
       }
-      // state.allTweets.map((tweet) => {
-      //   if (tweet.tweetId === tweetId) {
-      //     if (tweet.likes.indexOf(userId) === -1) {
-      //       tweet.likes.length > 0
-      //         ? (tweet.likes = [userId, ...tweet.likes])
-      //         : (tweet.likes = [userId]);
-      //     } else {
-      //       tweet.likes.splice(tweet.likes.indexOf(userId), 1);
-      //     }
-      //   }
-      // });
     },
-    addLikeCommentCount: (state, payload) => {
-      const { tweetId, userId } = payload.payload;
+    addLikeCommentCount: (
+      state,
+      payload: {
+        payload: {
+          commentId: String;
+          userId: String;
+          tweetId: String;
+        };
+        type: String;
+      }
+    ) => {
+      const { tweetId, userId, commentId } = payload.payload;
 
       const tweet = state.allTweets.find((tweet) => tweet.tweetId === tweetId);
       if (tweet) {
         tweet.comments.forEach((comment) => {
-          const userIdIndex = comment.likes.indexOf(userId);
-          if (userIdIndex === -1) {
+          const userIdIndex = comment.likes.some(
+            (like) => like.UserId === userId
+          );
+          console.log(comment);
+          if (userIdIndex) {
             comment.likes.length > 0
-              ? (comment.likes = [userId, ...comment.likes])
-              : (comment.likes = [userId]);
+              ? (comment.likes = [
+                  { CommentId: commentId, UserId: userId },
+                  ...comment.likes,
+                ])
+              : (comment.likes = [{ CommentId: commentId, UserId: userId }]);
           } else {
-            comment.likes.splice(userIdIndex, 1);
+            comment.likes.splice(
+              comment.likes.indexOf({ CommentId: commentId, UserId: userId }),
+              1
+            );
           }
         });
       }
@@ -142,4 +160,4 @@ export const tweetSlicer = createSlice({
   },
 });
 
-export const { addLikeTweetCount } = tweetSlicer.actions;
+export const { addLikeTweetCount, addLikeCommentCount } = tweetSlicer.actions;

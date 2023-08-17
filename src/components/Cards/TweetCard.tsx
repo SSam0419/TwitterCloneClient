@@ -91,6 +91,7 @@ const TweetCard: FC<TweetCardProps> = ({ tweet }) => {
               return (
                 <TweetCommentCard
                   comment={comment}
+                  userId={user?.id}
                   tweetId={tweet.tweetId}
                   key={idx}
                 />

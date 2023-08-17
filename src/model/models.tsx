@@ -1,42 +1,45 @@
 export interface Tweet {
-  tweetId: string;
-  content: string;
-  title: string;
+  tweetId: String;
+  content: String;
+  title: String;
   createdAt: Date;
   updatedAt: Date;
   author: User;
   comments: TweetComment[];
-  likes: String[];
+  likes: TweetLikes[];
 }
 
+export type TweetLikes = {
+  tweetId: String;
+  userId: String;
+};
 export interface User {
-  id: string;
-  username: string;
-  email: string;
-  iconLink: string;
+  id: String;
+  username: String;
+  email: String;
+  iconLink: String;
   followers?: User[];
 }
 
 export interface UserConfidentials {
-  username: string;
-  password: string;
+  username: String;
+  password: String;
 }
 
 export interface ITweetComment {
-  id: string;
-  content: string;
+  id: String;
+  content: String;
   createdAt: Date;
   updatedAt: Date;
-  tweetId: string;
+  tweetId: String;
 }
 
 export interface TweetComment extends ITweetComment {
-  likes: String[];
+  likes: CommentLikes[];
   author: User;
 }
 
-export type FetchedTweetComment = {
-  comment: ITweetComment;
-  commentAuthor: User;
-  commentLikes: String[];
+export type CommentLikes = {
+  CommentId: String;
+  UserId: String;
 };
