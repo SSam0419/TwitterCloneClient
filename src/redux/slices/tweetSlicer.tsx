@@ -26,7 +26,47 @@ export const tweetSlicer = createSlice({
     newRetweet: null,
     error: null,
   } as TweetState,
-  reducers: {},
+  reducers: {
+    addLikeTweetCount: (state, payload) => {
+      const { tweetId, userId } = payload.payload;
+      const tweet = state.allTweets.find((tweet) => tweet.tweetId === tweetId);
+      if (tweet) {
+        if (tweet.likes.indexOf(userId) === -1) {
+          tweet.likes.length > 0
+            ? (tweet.likes = [userId, ...tweet.likes])
+            : (tweet.likes = [userId]);
+        } else {
+          tweet.likes.splice(tweet.likes.indexOf(userId), 1);
+        }
+      }
+      // state.allTweets.map((tweet) => {
+      //   if (tweet.tweetId === tweetId) {
+      //     if (tweet.likes.indexOf(userId) === -1) {
+      //       tweet.likes.length > 0
+      //         ? (tweet.likes = [userId, ...tweet.likes])
+      //         : (tweet.likes = [userId]);
+      //     } else {
+      //       tweet.likes.splice(tweet.likes.indexOf(userId), 1);
+      //     }
+      //   }
+      // });
+    },
+    addLikeCommentCount: (state, payload) => {
+      const { tweetId, userId } = payload.payload;
+
+      const tweet = state.allTweets.find((tweet) => tweet.tweetId === tweetId);
+      if (tweet) {
+        tweet.comments.forEach((comment) => {
+          const userIdIndex = comment.likes.indexOf(userId);
+          if (userIdIndex === -1) {
+            comment.likes.unshift(userId);
+          } else {
+            comment.likes.splice(userIdIndex, 1);
+          }
+        });
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(action.getAllTweets.pending, (state) => {
       state.loading = true;
@@ -42,6 +82,7 @@ export const tweetSlicer = createSlice({
         state.error = action.payload.response?.data;
       } else {
         const { status, data } = action.payload;
+        console.log(data);
         if (status === 200) {
           state.allTweets = data;
         }
@@ -53,8 +94,10 @@ export const tweetSlicer = createSlice({
         state.error = action.payload.response?.data;
       } else {
         const { status, data } = action.payload;
+        const newTweet: Tweet = data.newTweet;
+        newTweet.author = data.author;
         if (status === 200) {
-          state.allTweets = [data, ...state.allTweets];
+          state.allTweets = [newTweet, ...state.allTweets];
         }
       }
       state.loading = false;
@@ -64,12 +107,37 @@ export const tweetSlicer = createSlice({
         state.error = action.payload.response?.data;
       } else {
         const { status, data } = action.payload;
+        console.log(data);
         if (status == 200) {
-          //add comment to tweet
+          const tweetId = data.tweetId;
+          const comment = data.comment;
+          state.allTweets.map((tweet) => {
+            if (tweet.tweetId == tweetId) {
+              tweet.comments !== null
+                ? (tweet.comments = [comment, ...tweet.comments])
+                : (tweet.comments = [...comment]);
+            }
+          });
         }
+      }
+
+      state.loading = false;
+    });
+    builder.addCase(action.likeTweet.fulfilled, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        state.error = action.payload.response?.data;
+      }
+
+      state.loading = false;
+    });
+    builder.addCase(action.likeComment.fulfilled, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        state.error = action.payload.response?.data;
       }
 
       state.loading = false;
     });
   },
 });
+
+export const { addLikeTweetCount } = tweetSlicer.actions;

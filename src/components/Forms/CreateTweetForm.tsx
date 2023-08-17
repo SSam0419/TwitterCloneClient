@@ -22,9 +22,10 @@ const CreateTweetForm = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    await dispatch(addTweet(inputText));
-    setInputText("");
+    if (inputText.trim() !== "") {
+      await dispatch(addTweet(inputText));
+      setInputText("");
+    }
   };
   const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value);

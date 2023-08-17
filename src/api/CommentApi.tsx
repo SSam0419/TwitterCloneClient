@@ -10,3 +10,8 @@ export const addComment = async (addCommentBody: addCommentBody) => {
   const response = await axios.post(domain + "AddComment", addCommentBody);
   return response;
 };
+
+export const likeComment = async (tweetId: String) => {
+  const response = await axios.post(domain + "LikeComment", { tweetId });
+  return response;
+};

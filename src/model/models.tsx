@@ -5,8 +5,8 @@ export interface Tweet {
   createdAt: Date;
   updatedAt: Date;
   author: User;
-  comments?: TweetComment[];
-  likes?: User[];
+  comments: TweetComment[];
+  likes: String[];
 }
 
 export interface User {

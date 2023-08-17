@@ -3,6 +3,7 @@ import GlobalPopUp from "../Common/GlobalPopUp";
 import { ImCross } from "react-icons/im";
 import { useAppDispatch } from "../../redux/store";
 import { addComment } from "../../redux/actions/tweetAction";
+import CustomButton from "../Common/CustomButton";
 
 type props = {
   tweetId: String;
@@ -45,8 +46,10 @@ const CreateCommentForm = ({ onClose, tweetId }: props) => {
           className="flex flex-col items-start justify-around h-[230px] w-full"
           onSubmit={(e) => {
             e.preventDefault();
-            handleSubmitComment();
-            onClose();
+            if (inputText.trim() !== "") {
+              handleSubmitComment();
+              onClose();
+            }
           }}
         >
           <div
@@ -64,12 +67,19 @@ const CreateCommentForm = ({ onClose, tweetId }: props) => {
               className={`w-full outline-none resize-none text-black`}
             ></textarea>
           </div>
-          <button
+          <CustomButton
+            text={"Confirm"}
+            action={() => {
+              handleSubmitComment();
+              onClose();
+            }}
+          />
+          {/* <button
             className="p-[10px] w-[150px] rounded-[25px] text-white font-semibold text-base bg-sky-500"
             type="submit"
           >
             Confirm
-          </button>
+          </button> */}
         </form>
       </div>
     </GlobalPopUp>

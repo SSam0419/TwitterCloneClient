@@ -10,7 +10,7 @@ type TweetCommentCardProps = {
 
 const TweetCommentCard: FC<TweetCommentCardProps> = ({ comment }) => {
   return (
-    <div className="border-b flex gap-3 py-5 px-3 hover:bg-gray-200 cursor-pointer">
+    <div className="border-t flex gap-3 py-5 px-3 hover:bg-gray-200 cursor-pointer">
       <Icon />
       <div>
         <div className="flex  ">

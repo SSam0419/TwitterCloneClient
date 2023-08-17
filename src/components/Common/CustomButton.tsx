@@ -1,17 +1,19 @@
-import React, { FC } from 'react'
+import React, { FC } from "react";
 
 type CustomButtonProps = {
-    text:String 
-    action:Function 
+  text: String;
+  action: Function;
+};
 
-}
-
-const CustomButton: FC<CustomButtonProps> = ({ text,action }) => {
+const CustomButton: FC<CustomButtonProps> = ({ text, action }) => {
   return (
-    <button className="rounded-lg border-2 border-blue-500 text-white bg-blue-500 px-3 py-1 font-semibold" onClick={()=>action}>
-        {text}
+    <button
+      className="px-[5px] py-[8px] w-[120px] rounded-[25px] text-white font-semibold text-base bg-sky-500"
+      onClick={() => action}
+    >
+      {text}
     </button>
-  )
-}
+  );
+};
 
-export default CustomButton
+export default CustomButton;
