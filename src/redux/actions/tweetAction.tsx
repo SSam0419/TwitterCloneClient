@@ -27,8 +27,8 @@ export const addComment = createAsyncThunk(
 );
 export const likeComment = createAsyncThunk(
   "tweet/likeComment",
-  async (tweetId: String, thunkApi) => {
-    const response = await CommentApi.likeComment(tweetId);
+  async (commentId: String, thunkApi) => {
+    const response = await CommentApi.likeComment(commentId);
     return response;
   }
 );
@@ -40,13 +40,6 @@ export const likeTweet = createAsyncThunk(
   ) => {
     thunkApi.dispatch(addLikeTweetCount({ tweetId, userId }));
     const response = await TweetApi.likeTweet(tweetId);
-    return response;
-  }
-);
-export const unlikeTweet = createAsyncThunk(
-  "tweet/unlikeTweet",
-  async (tweetId: String) => {
-    const response = await TweetApi.unlikeTweet(tweetId);
     return response;
   }
 );

@@ -59,7 +59,9 @@ export const tweetSlicer = createSlice({
         tweet.comments.forEach((comment) => {
           const userIdIndex = comment.likes.indexOf(userId);
           if (userIdIndex === -1) {
-            comment.likes.unshift(userId);
+            comment.likes.length > 0
+              ? (comment.likes = [userId, ...comment.likes])
+              : (comment.likes = [userId]);
           } else {
             comment.likes.splice(userIdIndex, 1);
           }

@@ -1,7 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import { User } from "../model/models";
+import { DOMAIN } from "../constant/Url";
 
-const domain = "https://localhost:44385/api/Auth/";
+const domain = DOMAIN + "api/Auth/";
 axios.defaults.withCredentials = true;
 interface Credentials {
   username: string;

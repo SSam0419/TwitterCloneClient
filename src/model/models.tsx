@@ -22,12 +22,21 @@ export interface UserConfidentials {
   password: string;
 }
 
-export interface TweetComment {
+export interface ITweetComment {
   id: string;
   content: string;
-  author: User;
-  likes: User[];
   createdAt: Date;
   updatedAt: Date;
   tweetId: string;
 }
+
+export interface TweetComment extends ITweetComment {
+  likes: String[];
+  author: User;
+}
+
+export type FetchedTweetComment = {
+  comment: ITweetComment;
+  commentAuthor: User;
+  commentLikes: String[];
+};

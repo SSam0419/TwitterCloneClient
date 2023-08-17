@@ -1,9 +1,11 @@
 import axios, { AxiosResponse } from "axios";
-const domain = "https://localhost:44385/api/Tweet/";
+import { DOMAIN } from "../constant/Url";
+const domain = DOMAIN + "api/Tweet/";
 axios.defaults.withCredentials = true;
 
 export const getAllTweets = async (): Promise<AxiosResponse> => {
   const response = await axios.get(domain + "GetAllTweetByDate");
+  console.log(response);
   return response;
 };
 

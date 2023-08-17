@@ -11,20 +11,24 @@ const TweetSettingButton: React.FC = () => {
   };
 
   const closeOpenMenus = (e: MouseEvent) => {
-    console.log("a");
     if (
       settingMenu.current &&
       isOpen &&
       !settingMenu.current.contains(e.target as Node)
     ) {
-      console.log("b");
       setIsOpen(false);
     }
   };
 
   useEffect(() => {
     document.addEventListener("mousedown", (e) => closeOpenMenus(e));
-  }, [settingMenu]);
+
+    () => {
+      return document.removeEventListener("mousedown", (e) =>
+        closeOpenMenus(e)
+      );
+    };
+  }, [settingMenu, isOpen]);
 
   return (
     <div className="relative inline-block text-left" ref={settingMenu}>

@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import { FaRegComment, FaRetweet } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
 import { IoIosStats } from "react-icons/io";
-import { Tweet } from "../../model/models";
+import { Tweet, TweetComment } from "../../model/models";
 import Icon from "../Common/Icon";
 import CreateCommentForm from "../Forms/CreateCommentForm";
 import TweetCommentCard from "./TweetCommentCard";
@@ -88,7 +88,13 @@ const TweetCard: FC<TweetCardProps> = ({ tweet }) => {
           {tweet.comments &&
             tweet.comments.length > 0 &&
             tweet.comments.map((comment, idx) => {
-              return <TweetCommentCard comment={comment} key={idx} />;
+              return (
+                <TweetCommentCard
+                  comment={comment}
+                  tweetId={tweet.tweetId}
+                  key={idx}
+                />
+              );
             })}
         </div>
       </div>

@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
+import { DOMAIN } from "../constant/Url";
 
-const domain = "https://localhost:44385/api/User/";
+const domain = DOMAIN + "api/User/";
 axios.defaults.withCredentials = true;
 export const visitUserProfile = async (
   userId: String
