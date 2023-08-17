@@ -27,7 +27,7 @@ export const addComment = createAsyncThunk(
 );
 export const likeComment = createAsyncThunk(
   "tweet/likeComment",
-  async (tweetId: String) => {
+  async (tweetId: String, thunkApi) => {
     const response = await CommentApi.likeComment(tweetId);
     return response;
   }
