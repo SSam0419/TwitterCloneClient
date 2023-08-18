@@ -1,1 +1,1 @@
-export const DOMAIN = "http://localhost:5069/";
+export const DOMAIN = "https://localhost:44385/";

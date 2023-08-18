@@ -14,6 +14,5 @@ export const addComment = async (addCommentBody: addCommentBody) => {
 
 export const likeComment = async (commentId: String) => {
   const response = await axios.post(domain + "LikeComment", { commentId });
-  console.log("res: " + response);
   return response;
 };

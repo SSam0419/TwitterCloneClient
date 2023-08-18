@@ -63,30 +63,34 @@ export const tweetSlicer = createSlice({
     ) => {
       const { tweetId, userId, commentId } = payload.payload;
 
-      const tweet = state.allTweets.find((tweet) => tweet.tweetId === tweetId);
-      if (tweet) {
-        tweet.comments.forEach((comment) => {
-          const userIdIndex = comment.likes.some(
-            (like) => like.UserId === userId
+      const foundTweet = state.allTweets.find(
+        (tweet) => tweet.tweetId === tweetId
+      );
+      if (foundTweet) {
+        const foundComment = foundTweet.comments.find(
+          (comment) => comment.id === commentId
+        );
+        if (foundComment) {
+          const likeIndex = foundComment.likes.findIndex(
+            (like) => like.userId === userId
           );
-          console.log(comment);
-          if (userIdIndex) {
-            comment.likes.length > 0
-              ? (comment.likes = [
-                  { CommentId: commentId, UserId: userId },
-                  ...comment.likes,
-                ])
-              : (comment.likes = [{ CommentId: commentId, UserId: userId }]);
+
+          if (likeIndex !== -1) {
+            foundComment.likes.splice(likeIndex, 1);
           } else {
-            comment.likes.splice(
-              comment.likes.indexOf({ CommentId: commentId, UserId: userId }),
-              1
-            );
+            foundComment.likes = [
+              {
+                commentId: commentId,
+                userId: userId,
+              },
+              ...foundComment.likes,
+            ];
           }
-        });
+        }
       }
     },
   },
+
   extraReducers: (builder) => {
     builder.addCase(action.getAllTweets.pending, (state) => {
       state.loading = true;

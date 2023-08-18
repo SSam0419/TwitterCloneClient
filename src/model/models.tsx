@@ -40,6 +40,6 @@ export interface TweetComment extends ITweetComment {
 }
 
 export type CommentLikes = {
-  CommentId: String;
-  UserId: String;
+  commentId: String;
+  userId: String;
 };
