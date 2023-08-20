@@ -3,6 +3,7 @@ import CreateTweetForm from "../components/Forms/CreateTweetForm";
 import { useEffect } from "react";
 import { getAllTweets } from "../redux/actions/tweetAction";
 import { useAppDispatch, useAppSelector } from "../redux/store";
+import { TweetType } from "../redux/reducers/tweetReducer";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +21,13 @@ const Home = () => {
       <CreateTweetForm />
       <div>
         {tweets?.map((tweet, idx) => {
-          return <TweetCard tweet={tweet} key={idx} />;
+          return (
+            <TweetCard
+              tweet={tweet}
+              key={idx}
+              tweetType={TweetType.HomeTweet}
+            />
+          );
         })}
       </div>
     </div>

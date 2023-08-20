@@ -1,10 +1,21 @@
 import { useEffect, useState } from "react";
 import Icon from "../components/Common/Icon";
-import { useAppSelector } from "../redux/store";
-import { useLocation, useParams } from "react-router-dom";
-import { User } from "../model/models";
+import { useAppDispatch, useAppSelector } from "../redux/store";
+import { useParams } from "react-router-dom";
+import { Tweet, User } from "../model/models";
 import { visitUserProfile } from "../api/UserApi";
 import { AxiosError } from "axios";
+import {
+  getBookmarkedTweetsByUserId,
+  getTweetsByUserId,
+} from "../api/TweetApi";
+import TweetCard from "../components/Cards/TweetCard";
+import CustomButton from "../components/Common/CustomButton";
+import { TweetType } from "../redux/reducers/tweetReducer";
+import {
+  getBookmarkedTweets,
+  getWroteTweets,
+} from "../redux/actions/tweetAction";
 
 type ActiveTab = {
   Tweets: boolean;
@@ -15,27 +26,41 @@ const initialState: ActiveTab = {
   Bookmarks: false,
 };
 const Profile = () => {
-  const { user } = useAppSelector((state) => ({ user: state.auth.user }));
-
+  const { user, wroteTweets, bookmarkedTweets } = useAppSelector((state) => ({
+    user: state.auth.user,
+    wroteTweets: state.tweet.wroteTweets,
+    bookmarkedTweets: state.tweet.bookmarkedTweets,
+  }));
+  const dispatch = useAppDispatch();
   const { user_id } = useParams();
   const [profileUser, setProfileUser] = useState<User | null>();
   const [activeTab, setActiveTab] = useState<ActiveTab>({
     ...initialState,
     Tweets: true,
   });
-  const findUserProfile = async (userId: String) => {
+
+  const findUserProfile = async (userId: string) => {
     const response = await visitUserProfile(userId);
-    console.log(response);
-    return response;
+    if (response instanceof AxiosError) {
+      setProfileUser(null);
+    }
+    setProfileUser(response.data);
   };
+
+  const findUserSavedTweetsAndWroteTweets = (userId: string) => {
+    dispatch(getWroteTweets(userId));
+    dispatch(getBookmarkedTweets(userId));
+  };
+
   useEffect(() => {
     if (user_id) {
-      const response = findUserProfile(user_id);
-      if (response instanceof AxiosError) {
-        setProfileUser(null);
-      }
+      findUserProfile(user_id);
+      findUserSavedTweetsAndWroteTweets(user_id);
     } else {
-      setProfileUser(user);
+      if (user) {
+        setProfileUser(user);
+        findUserSavedTweetsAndWroteTweets(user!.id);
+      }
     }
   }, [user_id, user]);
 
@@ -56,9 +81,11 @@ const Profile = () => {
           <h1 className="text-xl font-semibold">{profileUser?.username}</h1>
           <p className="text-gray-500">@{profileUser?.id}</p>
         </div>
-        <button className="mt-4 bg-sky-500 text-white px-4 py-2 rounded">
-          Follow
-        </button>
+        {user_id ? (
+          <CustomButton action={() => {}} text={"Follow"} />
+        ) : (
+          <CustomButton action={() => {}} text={"Edit Profile"} />
+        )}
       </div>
 
       <p className="mt-4">
@@ -103,8 +130,31 @@ const Profile = () => {
           Bookmarked
         </div>
       </div>
-
       {/* my posts */}
+      <div>
+        <div>
+          {activeTab.Tweets &&
+            wroteTweets?.map((tweet, idx) => {
+              return (
+                <TweetCard
+                  tweet={tweet}
+                  key={idx}
+                  tweetType={TweetType.ProfileWroteTweet}
+                />
+              );
+            })}
+          {activeTab.Bookmarks &&
+            bookmarkedTweets?.map((tweet, idx) => {
+              return (
+                <TweetCard
+                  tweet={tweet}
+                  key={idx}
+                  tweetType={TweetType.ProfileBookmarkedTweet}
+                />
+              );
+            })}
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 
 type CustomButtonProps = {
-  text: String;
+  text: string;
   action: Function;
 };
 

@@ -1,10 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { useRef } from "react";
+import EditTweetForm from "./Forms/EditTweetForm";
+import { TweetType } from "../redux/reducers/tweetReducer";
 
-const TweetSettingButton: React.FC = () => {
+type props = {
+  tweetId: string;
+  tweetContent: string;
+  tweetType: TweetType;
+};
+
+const TweetSettingButton = ({ tweetId, tweetContent, tweetType }: props) => {
   const [isOpen, setIsOpen] = useState(false);
-
+  const [openEditTweetForm, setOpenEditTweetForm] = useState(false);
+  //EditTweetForm;
   const settingMenu = useRef<HTMLDivElement>(null);
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
@@ -41,10 +50,24 @@ const TweetSettingButton: React.FC = () => {
       >
         <BsThreeDots />
       </button>
+      {openEditTweetForm && (
+        <EditTweetForm
+          onClose={() => setOpenEditTweetForm(false)}
+          tweetContent={tweetContent}
+          tweetId={tweetId}
+          tweetType={tweetType}
+        />
+      )}
       {isOpen && (
         <div className="origin-top-right absolute left-0 mt-2 w-44 rounded-lg shadow bg-white divide-y divide-gray-100 dark:bg-gray-700">
           <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
-            <li className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+            <li
+              className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+              onClick={() => {
+                setOpenEditTweetForm(true);
+                setIsOpen(false);
+              }}
+            >
               Edit
             </li>
             <li className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">

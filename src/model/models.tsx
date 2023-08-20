@@ -1,37 +1,43 @@
 export interface Tweet {
-  tweetId: String;
-  content: String;
-  title: String;
+  tweetId: string;
+  content: string;
+  title: string;
   createdAt: Date;
   updatedAt: Date;
   author: User;
   comments: TweetComment[];
   likes: TweetLikes[];
+  tweetBookmarks: TweetBookmarks[];
 }
 
 export type TweetLikes = {
-  tweetId: String;
-  userId: String;
+  tweetId: string;
+  userId: string;
 };
+export type TweetBookmarks = {
+  tweetId: string;
+  userId: string;
+};
+
 export interface User {
-  id: String;
-  username: String;
-  email: String;
-  iconLink: String;
+  id: string;
+  username: string;
+  email: string;
+  iconLink: string;
   followers?: User[];
 }
 
 export interface UserConfidentials {
-  username: String;
-  password: String;
+  username: string;
+  password: string;
 }
 
 export interface ITweetComment {
-  id: String;
-  content: String;
+  id: string;
+  content: string;
   createdAt: Date;
   updatedAt: Date;
-  tweetId: String;
+  tweetId: string;
 }
 
 export interface TweetComment extends ITweetComment {
@@ -40,6 +46,6 @@ export interface TweetComment extends ITweetComment {
 }
 
 export type CommentLikes = {
-  commentId: String;
-  userId: String;
+  commentId: string;
+  userId: string;
 };

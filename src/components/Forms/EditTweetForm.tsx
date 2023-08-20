@@ -1,18 +1,26 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-import GlobalPopUp from "../Common/GlobalPopUp";
 import { ImCross } from "react-icons/im";
 import { useAppDispatch } from "../../redux/store";
-import { addComment } from "../../redux/actions/tweetAction";
 import CustomButton from "../Common/CustomButton";
+import GlobalPopUp from "../Common/GlobalPopUp";
+import { editTweet } from "../../redux/actions/tweetAction";
+import { TweetType } from "../../redux/reducers/tweetReducer";
 
 type props = {
   tweetId: string;
+  tweetContent: string;
   onClose: Function;
+  tweetType: TweetType;
 };
 
-const CreateCommentForm = ({ onClose, tweetId }: props) => {
+const EditTweetForm = ({
+  tweetId,
+  tweetContent,
+  onClose,
+  tweetType,
+}: props) => {
   const dispatch = useAppDispatch();
-  const [inputText, setInputText] = useState("");
+  const [inputText, setInputText] = useState<string>("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const resizeTextArea = () => {
@@ -24,13 +32,14 @@ const CreateCommentForm = ({ onClose, tweetId }: props) => {
   };
 
   useEffect(resizeTextArea, [inputText]);
+  useEffect(() => setInputText(tweetContent), []);
 
   const handleInputChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setInputText(event.target.value);
   };
 
   const handleSubmitComment = async () => {
-    dispatch(addComment({ content: inputText, tweetId: tweetId }));
+    dispatch(editTweet({ tweetContent: inputText, tweetId, tweetType }));
   };
 
   return (
@@ -63,7 +72,7 @@ const CreateCommentForm = ({ onClose, tweetId }: props) => {
               ref={textAreaRef}
               value={inputText}
               onChange={handleInputChange}
-              placeholder="write your comment"
+              placeholder="update your tweet"
               className={`w-full outline-none resize-none text-black`}
             ></textarea>
           </div>
@@ -80,4 +89,4 @@ const CreateCommentForm = ({ onClose, tweetId }: props) => {
   );
 };
 
-export default CreateCommentForm;
+export default EditTweetForm;

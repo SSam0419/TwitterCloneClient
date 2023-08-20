@@ -2,8 +2,8 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as authApi from "../../api/AuthApi";
 
 interface RegisterUserPayload {
-  username: String;
-  password: String;
+  username: string;
+  password: string;
 }
 
 export const registerUser = createAsyncThunk(

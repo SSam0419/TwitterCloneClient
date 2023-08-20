@@ -5,9 +5,9 @@ import { BsFillBookmarkFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { BiSolidMessageRounded } from "react-icons/bi";
 export type SideBarLink = {
-  link: String;
+  link: string;
   icon: IconType;
-  name: String;
+  name: string;
 };
 
 export const SideBarLinks: SideBarLink[] = [

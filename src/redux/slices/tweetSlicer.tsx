@@ -1,17 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Tweet } from "../../model/models";
 import * as action from "../actions/tweetAction";
+import * as reducer from "../reducers/tweetReducer";
 import { AxiosError } from "axios";
+import { TweetType } from "../reducers/tweetReducer";
 
 export interface TweetState {
   loading: boolean;
   allTweets: Tweet[];
+  wroteTweets: Tweet[];
+  bookmarkedTweets: Tweet[];
   followingTweets: Tweet[] | null;
   tweetById: Tweet | null;
   modifiedTweet: Tweet | null;
   newTweet: Tweet | null;
   newRetweet: Tweet | null;
-  error: String | null;
+  error: string | null;
 }
 
 export const tweetSlicer = createSlice({
@@ -19,6 +23,8 @@ export const tweetSlicer = createSlice({
   initialState: {
     loading: false,
     allTweets: [],
+    wroteTweets: [],
+    bookmarkedTweets: [],
     followingTweets: null,
     tweetById: null,
     modifiedTweet: null,
@@ -27,72 +33,60 @@ export const tweetSlicer = createSlice({
     error: null,
   } as TweetState,
   reducers: {
-    addLikeTweetCount: (state, payload) => {
-      const { tweetId, userId } = payload.payload;
-      const tweet = state.allTweets.find((tweet) => tweet.tweetId === tweetId);
-      if (tweet) {
-        if (
-          !tweet.likes.some(
-            (like) => like.tweetId === tweetId && like.userId === userId
-          )
-        ) {
-          tweet.likes.length > 0
-            ? (tweet.likes = [
-                { tweetId: tweetId, userId: userId },
-                ...tweet.likes,
-              ])
-            : (tweet.likes = [{ tweetId: tweetId, userId: userId }]);
-        } else {
-          tweet.likes.splice(
-            tweet.likes.indexOf({ tweetId: tweetId, userId: userId }),
-            1
-          );
-        }
+    addLikeTweetCount: (
+      state,
+      payload: {
+        payload: {
+          tweetId: string;
+          userId: string;
+          tweetType: TweetType;
+        };
+        type: string;
       }
-    },
+    ) => reducer.addLikeTweetCount(state, payload),
+    editTweet: (
+      state,
+      payload: {
+        payload: {
+          updatedTweet: Tweet;
+          tweetType: TweetType;
+        };
+        type: string;
+      }
+    ) => reducer.editTweet(state, payload),
     addLikeCommentCount: (
       state,
       payload: {
         payload: {
-          commentId: String;
-          userId: String;
-          tweetId: String;
+          commentId: string;
+          tweetId: string;
+          userId: string;
+          tweetType: TweetType;
         };
-        type: String;
+        type: string;
       }
-    ) => {
-      const { tweetId, userId, commentId } = payload.payload;
-
-      const foundTweet = state.allTweets.find(
-        (tweet) => tweet.tweetId === tweetId
-      );
-      if (foundTweet) {
-        const foundComment = foundTweet.comments.find(
-          (comment) => comment.id === commentId
-        );
-        if (foundComment) {
-          const likeIndex = foundComment.likes.findIndex(
-            (like) => like.userId === userId
-          );
-
-          if (likeIndex !== -1) {
-            foundComment.likes.splice(likeIndex, 1);
-          } else {
-            foundComment.likes = [
-              {
-                commentId: commentId,
-                userId: userId,
-              },
-              ...foundComment.likes,
-            ];
-          }
-        }
+    ) => reducer.addLikeCommentCount(state, payload),
+    addBookmarkCount: (
+      state,
+      payload: {
+        payload: {
+          tweetId: string;
+          userId: string;
+          tweetType: TweetType;
+        };
+        type: string;
       }
-    },
+    ) => reducer.addBookmarkCount(state, payload),
   },
 
   extraReducers: (builder) => {
     builder.addCase(action.getAllTweets.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(action.getBookmarkedTweets.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(action.getWroteTweets.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(action.addTweet.pending, (state) => {
@@ -113,6 +107,30 @@ export const tweetSlicer = createSlice({
       }
       state.loading = false;
     });
+    builder.addCase(action.getBookmarkedTweets.fulfilled, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        state.error = action.payload.response?.data;
+      } else {
+        const { status, data } = action.payload;
+        console.log(data);
+        if (status === 200) {
+          state.bookmarkedTweets = data;
+        }
+      }
+      state.loading = false;
+    });
+    builder.addCase(action.getWroteTweets.fulfilled, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        state.error = action.payload.response?.data;
+      } else {
+        const { status, data } = action.payload;
+        console.log(data);
+        if (status === 200) {
+          state.wroteTweets = data;
+        }
+      }
+      state.loading = false;
+    });
     builder.addCase(action.addTweet.fulfilled, (state, action) => {
       if (action.payload instanceof AxiosError) {
         state.error = action.payload.response?.data;
@@ -123,6 +141,12 @@ export const tweetSlicer = createSlice({
         if (status === 200) {
           state.allTweets = [newTweet, ...state.allTweets];
         }
+      }
+      state.loading = false;
+    });
+    builder.addCase(action.editTweet.fulfilled, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        state.error = action.payload.response?.data;
       }
       state.loading = false;
     });
@@ -164,4 +188,9 @@ export const tweetSlicer = createSlice({
   },
 });
 
-export const { addLikeTweetCount, addLikeCommentCount } = tweetSlicer.actions;
+export const {
+  addLikeTweetCount,
+  addLikeCommentCount,
+  addBookmarkCount,
+  editTweet,
+} = tweetSlicer.actions;

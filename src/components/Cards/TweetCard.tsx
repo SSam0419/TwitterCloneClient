@@ -1,20 +1,23 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { FaRegComment, FaRetweet } from "react-icons/fa";
-import { AiOutlineHeart } from "react-icons/ai";
+import { BsFillBookmarkFill, BsBookmark } from "react-icons/bs";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { IoIosStats } from "react-icons/io";
-import { Tweet, TweetComment } from "../../model/models";
+import { Tweet } from "../../model/models";
 import Icon from "../Common/Icon";
 import CreateCommentForm from "../Forms/CreateCommentForm";
 import TweetCommentCard from "./TweetCommentCard";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { likeTweet } from "../../redux/actions/tweetAction";
+import { likeTweet, bookmarkTweet } from "../../redux/actions/tweetAction";
 import TweetSettingButton from "../TweetSettingButton";
+import { TweetType } from "../../redux/reducers/tweetReducer";
 
 type TweetCardProps = {
   tweet: Tweet;
+  tweetType: TweetType;
 };
 
-const TweetCard: FC<TweetCardProps> = ({ tweet }) => {
+const TweetCard: FC<TweetCardProps> = ({ tweet, tweetType }) => {
   const { user } = useAppSelector((state) => ({
     user: state.auth.user,
   }));
@@ -27,7 +30,11 @@ const TweetCard: FC<TweetCardProps> = ({ tweet }) => {
   return (
     <div className="border-b flex gap-3 py-5 px-3 hover:bg-gray-200 cursor-pointer relative">
       <div className="absolute top-1 right-0 mx-4">
-        <TweetSettingButton />
+        <TweetSettingButton
+          tweetContent={tweet.content}
+          tweetId={tweet.tweetId}
+          tweetType={tweetType}
+        />
       </div>
       <Icon />
       <div>
@@ -73,11 +80,50 @@ const TweetCard: FC<TweetCardProps> = ({ tweet }) => {
               if (user == null) {
                 return;
               }
-              dispatch(likeTweet({ tweetId: tweet.tweetId, userId: user!.id }));
+              dispatch(
+                likeTweet({
+                  tweetId: tweet.tweetId,
+                  userId: user!.id,
+                  tweetType,
+                })
+              );
             }}
           >
             {tweet.likes == null ? 0 : tweet.likes.length}
-            <AiOutlineHeart />
+
+            {user == null ? (
+              <AiOutlineHeart />
+            ) : tweet.likes.some(({ userId }) => userId === user!.id) ? (
+              <AiFillHeart />
+            ) : (
+              <AiOutlineHeart />
+            )}
+          </div>
+          <div
+            className="flex items-center justify-center w-10 h-10 rounded-full  hover:bg-gray-400 text-sky-500"
+            onClick={() => {
+              if (user == null) {
+                return;
+              }
+              dispatch(
+                bookmarkTweet({
+                  tweetId: tweet.tweetId,
+                  userId: user!.id,
+                  tweetType,
+                })
+              );
+            }}
+          >
+            {tweet.tweetBookmarks.length}
+            {user == null ? (
+              <BsFillBookmarkFill />
+            ) : tweet.tweetBookmarks.some(
+                ({ userId }) => userId === user!.id
+              ) ? (
+              <BsFillBookmarkFill />
+            ) : (
+              <BsBookmark />
+            )}
           </div>
           <div className="flex items-center justify-center w-10 h-10 rounded-full  hover:bg-gray-400 text-sky-500">
             <IoIosStats />
@@ -94,6 +140,7 @@ const TweetCard: FC<TweetCardProps> = ({ tweet }) => {
                   userId={user?.id}
                   tweetId={tweet.tweetId}
                   key={idx}
+                  tweetType={tweetType}
                 />
               );
             })}

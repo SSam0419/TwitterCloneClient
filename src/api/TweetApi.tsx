@@ -9,8 +9,23 @@ export const getAllTweets = async (): Promise<AxiosResponse> => {
   return response;
 };
 
+export const getTweetsByUserId = async (
+  userId: string
+): Promise<AxiosResponse> => {
+  const response = await axios.get(domain + `GetAllTweetByUserId/${userId}`);
+  console.log(response);
+  return response;
+};
+export const getBookmarkedTweetsByUserId = async (
+  userId: string
+): Promise<AxiosResponse> => {
+  const response = await axios.get(domain + `GetBookmarkedTweet/${userId}`);
+  console.log(response);
+  return response;
+};
+
 export const createTweet = async (
-  tweetContent: String
+  tweetContent: string
 ): Promise<AxiosResponse> => {
   const response = await axios.post(domain + "AddTweet", {
     tweetContent: tweetContent,
@@ -18,15 +33,36 @@ export const createTweet = async (
   return response;
 };
 
-export const likeTweet = async (tweetId: String): Promise<AxiosResponse> => {
+export const editTweet = async ({
+  tweetId,
+  tweetContent,
+}: {
+  tweetContent: string;
+  tweetId: string;
+}): Promise<AxiosResponse> => {
+  const response = await axios.put(domain + "EditTweet/" + tweetId, {
+    tweetContent: tweetContent,
+  });
+  return response;
+};
+
+export const likeTweet = async (tweetId: string): Promise<AxiosResponse> => {
   const response = await axios.post(domain + "LikeTweet", {
     tweetId: tweetId,
   });
   return response;
 };
-export const unlikeTweet = async (tweetId: String): Promise<AxiosResponse> => {
-  const response = await axios.post(domain + "UnlikeTweet", {
+
+export const bookmarkTweet = async ({
+  tweetId,
+  userId,
+}: {
+  tweetId: string;
+  userId: string;
+}): Promise<AxiosResponse> => {
+  const response = await axios.post(domain + "BookmarkTweet", {
     tweetId: tweetId,
+    userId,
   });
   return response;
 };

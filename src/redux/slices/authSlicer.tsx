@@ -13,7 +13,7 @@ export const enum LoginPageStatus {
 type AuthState = {
   user: User | null;
   loginPageStatus: LoginPageStatus | null;
-  error: String | null;
+  error: string | null;
   loading: boolean | null;
 };
 
