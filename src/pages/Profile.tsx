@@ -10,7 +10,7 @@ import {
   getTweetsByUserId,
 } from "../api/TweetApi";
 import TweetCard from "../components/Cards/TweetCard";
-import CustomButton from "../components/Common/CustomButton";
+import PrimaryButton from "../components/Common/PrimaryButton";
 import { TweetType } from "../redux/reducers/tweetReducer";
 import {
   getBookmarkedTweets,
@@ -82,9 +82,9 @@ const Profile = () => {
           <p className="text-gray-500">@{profileUser?.id}</p>
         </div>
         {user_id ? (
-          <CustomButton action={() => {}} text={"Follow"} />
+          <PrimaryButton action={() => {}} text={"Follow"} />
         ) : (
-          <CustomButton action={() => {}} text={"Edit Profile"} />
+          <PrimaryButton action={() => {}} text={"Edit Profile"} />
         )}
       </div>
 

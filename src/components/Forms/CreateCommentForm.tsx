@@ -3,7 +3,7 @@ import GlobalPopUp from "../Common/GlobalPopUp";
 import { ImCross } from "react-icons/im";
 import { useAppDispatch } from "../../redux/store";
 import { addComment } from "../../redux/actions/tweetAction";
-import CustomButton from "../Common/CustomButton";
+import PrimaryButton from "../Common/PrimaryButton";
 
 type props = {
   tweetId: string;
@@ -67,7 +67,7 @@ const CreateCommentForm = ({ onClose, tweetId }: props) => {
               className={`w-full outline-none resize-none text-black`}
             ></textarea>
           </div>
-          <CustomButton
+          <PrimaryButton
             text={"Confirm"}
             action={() => {
               handleSubmitComment();

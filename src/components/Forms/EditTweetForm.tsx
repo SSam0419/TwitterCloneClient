@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { ImCross } from "react-icons/im";
 import { useAppDispatch } from "../../redux/store";
-import CustomButton from "../Common/CustomButton";
+import PrimaryButton from "../Common/PrimaryButton";
 import GlobalPopUp from "../Common/GlobalPopUp";
 import { editTweet } from "../../redux/actions/tweetAction";
 import { TweetType } from "../../redux/reducers/tweetReducer";
@@ -76,7 +76,7 @@ const EditTweetForm = ({
               className={`w-full outline-none resize-none text-black`}
             ></textarea>
           </div>
-          <CustomButton
+          <PrimaryButton
             text={"Confirm"}
             action={() => {
               handleSubmitComment();

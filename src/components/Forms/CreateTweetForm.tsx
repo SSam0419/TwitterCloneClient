@@ -3,7 +3,7 @@ import { borderColor } from "../../constant/Colors";
 import { useAppDispatch } from "../../redux/store";
 import { addTweet } from "../../redux/actions/tweetAction";
 import Icon from "../Common/Icon";
-import CustomButton from "../Common/CustomButton";
+import PrimaryButton from "../Common/PrimaryButton";
 
 const CreateTweetForm = () => {
   const dispatch = useAppDispatch();
@@ -45,7 +45,7 @@ const CreateTweetForm = () => {
               placeholder="What is happening?"
               className={`w-full outline-none resize-none overflow-hidden`}
             ></textarea>
-            <CustomButton action={handleSubmit} text={"Tweet"} />
+            <PrimaryButton action={handleSubmit} text={"Tweet"} />
           </form>
           <div>toolbar</div>
         </div>
