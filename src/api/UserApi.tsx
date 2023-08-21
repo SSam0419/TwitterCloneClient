@@ -20,3 +20,14 @@ export const followUser = async ({
   const response = await axios.post(domain + "follow", { from, to });
   return response;
 };
+
+export const updateUserProfile = async ({
+  userId,
+  bio,
+}: {
+  userId: string;
+  bio: string;
+}): Promise<AxiosResponse> => {
+  const response = await axios.post(domain + "UpdateProfile", { userId, bio });
+  return response;
+};

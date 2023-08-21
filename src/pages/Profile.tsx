@@ -102,11 +102,11 @@ const Profile = () => {
       </div>
 
       <p className="mt-4">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut
-        ultricies magna. Vivamus luctus varius nunc, ac dignissim orci
-        vestibulum id. Phasellus eget lacus velit.
+        {profileUser?.bio || "Update your profile for bio"}
       </p>
-      <div className="text-base font-light">Joined at {}</div>
+      <div className="text-base ">
+        Joined at {profileUser?.createdAt.toLocaleString()}
+      </div>
       <div className="mt-4">
         <span className="mr-4">
           <span className="font-semibold">120 </span>
