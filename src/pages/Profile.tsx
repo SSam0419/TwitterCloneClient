@@ -16,6 +16,7 @@ import {
   getBookmarkedTweets,
   getWroteTweets,
 } from "../redux/actions/tweetAction";
+import EditProfileForm from "../components/Forms/EditProfileForm";
 
 type ActiveTab = {
   Tweets: boolean;
@@ -38,6 +39,7 @@ const Profile = () => {
     ...initialState,
     Tweets: true,
   });
+  const [editProfilePopUp, setEditProfilePopUp] = useState(false);
 
   const findUserProfile = async (userId: string) => {
     const response = await visitUserProfile(userId);
@@ -75,6 +77,12 @@ const Profile = () => {
 
   return (
     <div className="bg-white rounded-lg shadow p-4">
+      {editProfilePopUp && (
+        <EditProfileForm
+          onClose={() => setEditProfilePopUp(false)}
+          user={user}
+        />
+      )}
       <div className="flex items-center gap-3">
         <Icon />
         <div>
@@ -84,7 +92,12 @@ const Profile = () => {
         {user_id ? (
           <PrimaryButton action={() => {}} text={"Follow"} />
         ) : (
-          <PrimaryButton action={() => {}} text={"Edit Profile"} />
+          <PrimaryButton
+            action={() => {
+              setEditProfilePopUp(true);
+            }}
+            text={"Edit Profile"}
+          />
         )}
       </div>
 

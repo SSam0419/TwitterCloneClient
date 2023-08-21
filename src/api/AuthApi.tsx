@@ -45,6 +45,13 @@ export const signUser = async ({
     });
   return response;
 };
+export const logout = async (userId: String): Promise<AxiosResponse> => {
+  axios.defaults.withCredentials = true;
+  const response = await axios.post(domain + "log_out", {
+    userId,
+  });
+  return response;
+};
 
 export const verifyAccesToken = async (): Promise<AxiosResponse> => {
   axios.defaults.withCredentials = true;

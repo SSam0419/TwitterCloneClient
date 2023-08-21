@@ -12,6 +12,56 @@ export enum TweetType {
   HomeTweet,
 }
 
+export const deleteTweet = (
+  state: WritableDraft<TweetState>,
+  payload: {
+    payload: {
+      tweetId: string;
+      tweetType: TweetType;
+    };
+    type: string;
+  }
+) => {
+  const { tweetId, tweetType } = payload.payload;
+  let tweetIndex = -1;
+
+  switch (tweetType) {
+    case TweetType.HomeTweet:
+      tweetIndex = state.allTweets.findIndex(
+        (tweet) => tweet.tweetId === tweetId
+      );
+      break;
+    case TweetType.ProfileBookmarkedTweet:
+      tweetIndex = state.bookmarkedTweets.findIndex(
+        (tweet) => tweet.tweetId === tweetId
+      );
+      break;
+    case TweetType.ProfileWroteTweet:
+      tweetIndex = state.wroteTweets.findIndex(
+        (tweet) => tweet.tweetId === tweetId
+      );
+      break;
+    default:
+      break;
+  }
+
+  if (tweetIndex !== -1) {
+    switch (tweetType) {
+      case TweetType.HomeTweet:
+        state.allTweets.splice(tweetIndex, 1);
+        break;
+      case TweetType.ProfileBookmarkedTweet:
+        state.bookmarkedTweets.splice(tweetIndex, 1);
+        break;
+      case TweetType.ProfileWroteTweet:
+        state.wroteTweets.splice(tweetIndex, 1);
+        break;
+      default:
+        break;
+    }
+  }
+};
+
 export const addLikeTweetCount = (
   state: WritableDraft<TweetState>,
   payload: {

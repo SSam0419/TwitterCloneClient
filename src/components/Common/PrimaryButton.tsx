@@ -9,7 +9,7 @@ const PrimaryButton: FC<PrimaryButtonProps> = ({ text, action }) => {
   return (
     <button
       className="px-[5px] py-[8px] w-[120px] rounded-[25px] text-white font-semibold text-base bg-sky-500"
-      onClick={() => action}
+      onClick={() => action()}
     >
       {text}
     </button>

@@ -23,8 +23,11 @@ export interface User {
   id: string;
   username: string;
   email: string;
+  bio: string;
   iconLink: string;
   followers?: User[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface UserConfidentials {

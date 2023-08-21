@@ -6,6 +6,7 @@ import {
   addLikeCommentCount,
   addLikeTweetCount,
   editTweet as _editTweet,
+  deleteTweet as _deleteTweet,
 } from "../slices/tweetSlicer";
 import { TweetType } from "../reducers/tweetReducer";
 import { AxiosError } from "axios";
@@ -38,6 +39,20 @@ export const addTweet = createAsyncThunk(
     return response;
   }
 );
+
+export const deleteTweet = createAsyncThunk(
+  "tweet/deleteTweet",
+  async (
+    { tweetId, tweetType }: { tweetId: string; tweetType: TweetType },
+    thunkApi
+  ) => {
+    const response = await TweetApi.deleteTweet(tweetId);
+    thunkApi.dispatch(_deleteTweet({ tweetId, tweetType }));
+
+    return response;
+  }
+);
+
 export const addComment = createAsyncThunk(
   "tweet/addComment",
   async (addCommentBody: CommentApi.addCommentBody) => {

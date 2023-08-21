@@ -8,6 +8,8 @@ export const enum LoginPageStatus {
   RegisterFailed,
   LoginSuccessful,
   LoginFailed,
+  LogoutFailed,
+  Clean,
 }
 
 type AuthState = {
@@ -33,6 +35,9 @@ export const authSlicer = createSlice({
     builder.addCase(action.signUser.pending, (state) => {
       state.loading = true;
     });
+    builder.addCase(action.logoutUser.pending, (state) => {
+      state.loading = true;
+    });
     builder.addCase(action.verifyAccesToken.pending, (state) => {
       state.loading = true;
     });
@@ -44,6 +49,24 @@ export const authSlicer = createSlice({
       const { status } = action.payload;
       if (status === 200) {
         state.loginPageStatus = LoginPageStatus.RegisterSuccessful;
+      }
+      state.loading = false;
+    });
+    builder.addCase(action.followUser.fulfilled, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        state.error = action.payload.response?.data;
+      }
+      state.loading = false;
+    });
+    builder.addCase(action.logoutUser.fulfilled, (state, action) => {
+      state.user = null;
+      if (action.payload instanceof AxiosError) {
+        state.error = action.payload.response?.data;
+        state.loginPageStatus = LoginPageStatus.LogoutFailed;
+      }
+      const { status } = action.payload;
+      if (status === 200) {
+        state.loginPageStatus = LoginPageStatus.Clean;
       }
       state.loading = false;
     });

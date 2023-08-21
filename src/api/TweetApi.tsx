@@ -33,6 +33,11 @@ export const createTweet = async (
   return response;
 };
 
+export const deleteTweet = async (tweetId: string): Promise<AxiosResponse> => {
+  const response = await axios.delete(domain + `DeleteTweet/${tweetId}`);
+  return response;
+};
+
 export const editTweet = async ({
   tweetId,
   tweetContent,

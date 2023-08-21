@@ -44,6 +44,16 @@ export const tweetSlicer = createSlice({
         type: string;
       }
     ) => reducer.addLikeTweetCount(state, payload),
+    deleteTweet: (
+      state,
+      payload: {
+        payload: {
+          tweetId: string;
+          tweetType: TweetType;
+        };
+        type: string;
+      }
+    ) => reducer.deleteTweet(state, payload),
     editTweet: (
       state,
       payload: {
@@ -178,6 +188,13 @@ export const tweetSlicer = createSlice({
 
       state.loading = false;
     });
+    builder.addCase(action.deleteTweet.fulfilled, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        state.error = action.payload.response?.data;
+      }
+
+      state.loading = false;
+    });
     builder.addCase(action.likeComment.fulfilled, (state, action) => {
       if (action.payload instanceof AxiosError) {
         state.error = action.payload.response?.data;
@@ -193,4 +210,5 @@ export const {
   addLikeCommentCount,
   addBookmarkCount,
   editTweet,
+  deleteTweet,
 } = tweetSlicer.actions;
