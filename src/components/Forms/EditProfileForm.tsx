@@ -5,6 +5,7 @@ import PrimaryButton from "../Common/PrimaryButton";
 import GlobalPopUp from "../Common/GlobalPopUp";
 import { User } from "../../model/models";
 import Icon from "../Common/Icon";
+import { updateUserProfile } from "../../redux/actions/authAction";
 
 type props = {
   user: User | null;
@@ -30,7 +31,10 @@ const EditProfileForm = ({ user, onClose }: props) => {
     setBioContent(event.target.value);
   };
 
-  const handleSubmitComment = async () => {};
+  const handleSubmitComment = async () => {
+    if (user)
+      dispatch(updateUserProfile({ userId: user!.id, bio: bioContent }));
+  };
 
   return (
     <GlobalPopUp onClose={() => onClose()}>

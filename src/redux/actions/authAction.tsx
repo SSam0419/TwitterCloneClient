@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as authApi from "../../api/AuthApi";
 import * as userApi from "../../api/UserApi";
+import { updateUserProfile as _updateUserProfile } from "../slices/authSlicer";
 
 interface RegisterUserPayload {
   username: string;
@@ -52,6 +53,16 @@ export const followUser = createAsyncThunk(
   "auth/followUser",
   async ({ from, to }: { from: string; to: string }, thunkApi) => {
     const response = await userApi.followUser({ from, to });
+
+    return response;
+  }
+);
+
+export const updateUserProfile = createAsyncThunk(
+  "auth/updateUserProfile",
+  async ({ userId, bio }: { userId: string; bio: string }, thunkApi) => {
+    thunkApi.dispatch(_updateUserProfile({ userId, bio }));
+    const response = await userApi.updateUserProfile({ userId, bio });
 
     return response;
   }

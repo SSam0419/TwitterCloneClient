@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../model/models";
 import * as action from "../actions/authAction";
 import { AxiosError } from "axios";
+import * as reducer from "../reducers/userReducer";
 
 export const enum LoginPageStatus {
   RegisterSuccessful,
@@ -12,7 +13,7 @@ export const enum LoginPageStatus {
   Clean,
 }
 
-type AuthState = {
+export type AuthState = {
   user: User | null;
   loginPageStatus: LoginPageStatus | null;
   error: string | null;
@@ -27,7 +28,18 @@ export const authSlicer = createSlice({
     loading: false,
     loginPageStatus: null,
   } as AuthState,
-  reducers: {},
+  reducers: {
+    updateUserProfile: (
+      state,
+      payload: {
+        payload: {
+          bio: string;
+          userId: string;
+        };
+        type: string;
+      }
+    ) => reducer.updateUserProfile(state, payload),
+  },
   extraReducers: (builder) => {
     builder.addCase(action.registerUser.pending, (state) => {
       state.loading = true;
@@ -98,3 +110,5 @@ export const authSlicer = createSlice({
     });
   },
 });
+
+export const { updateUserProfile } = authSlicer.actions;
