@@ -3,7 +3,7 @@ import { FaHome } from "react-icons/fa";
 
 import { BsFillBookmarkFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
-import { BiSolidMessageRounded } from "react-icons/bi";
+import { BiSolidMessageRounded, BiLogOut } from "react-icons/bi";
 export type SideBarLink = {
   link: string;
   icon: IconType;

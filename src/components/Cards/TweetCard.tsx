@@ -114,7 +114,7 @@ const TweetCard: FC<TweetCardProps> = ({ tweet, tweetType }) => {
               );
             }}
           >
-            {tweet.tweetBookmarks.length}
+            {tweet.tweetBookmarks?.length}
             {user == null ? (
               <BsFillBookmarkFill />
             ) : tweet.tweetBookmarks.some(

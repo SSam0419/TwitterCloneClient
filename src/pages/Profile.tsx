@@ -2,13 +2,9 @@ import { useEffect, useState } from "react";
 import Icon from "../components/Common/Icon";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { useParams } from "react-router-dom";
-import { Tweet, User } from "../model/models";
+import { User } from "../model/models";
 import { visitUserProfile } from "../api/UserApi";
 import { AxiosError } from "axios";
-import {
-  getBookmarkedTweetsByUserId,
-  getTweetsByUserId,
-} from "../api/TweetApi";
 import TweetCard from "../components/Cards/TweetCard";
 import PrimaryButton from "../components/Common/PrimaryButton";
 import { TweetType } from "../redux/reducers/tweetReducer";
@@ -62,9 +58,19 @@ const Profile = () => {
       if (user) {
         setProfileUser(user);
         findUserSavedTweetsAndWroteTweets(user!.id);
+      } else {
+        setProfileUser(null);
       }
     }
   }, [user_id, user]);
+
+  if (profileUser == null && user_id == null) {
+    return (
+      <div className="flex flex-col items-center justify-center h-full shadow">
+        <p className="text-4xl font-bold mb-4">Login to view your profile</p>
+      </div>
+    );
+  }
 
   if (profileUser == null) {
     return (

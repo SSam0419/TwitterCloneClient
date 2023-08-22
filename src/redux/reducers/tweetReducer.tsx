@@ -96,7 +96,7 @@ export const addLikeTweetCount = (
         (like) => like.tweetId === tweetId && like.userId === userId
       )
     ) {
-      tweet.likes.length > 0
+      tweet.likes?.length > 0
         ? (tweet.likes = [{ tweetId: tweetId, userId: userId }, ...tweet.likes])
         : (tweet.likes = [{ tweetId: tweetId, userId: userId }]);
     } else {

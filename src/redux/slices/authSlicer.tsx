@@ -90,7 +90,6 @@ export const authSlicer = createSlice({
       } else {
         const { status, data } = action.payload;
         if (status === 200) {
-          console.log(data);
           state.loginPageStatus = LoginPageStatus.LoginSuccessful;
           state.user = data;
         }

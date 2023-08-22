@@ -4,6 +4,8 @@ import { useRef } from "react";
 import EditTweetForm from "./Forms/EditTweetForm";
 import { TweetType } from "../redux/reducers/tweetReducer";
 import ConfirmPopUp from "./ConfirmPopUp";
+import { useAppDispatch } from "../redux/store";
+import { deleteTweet } from "../redux/actions/tweetAction";
 
 type props = {
   tweetId: string;
@@ -12,6 +14,7 @@ type props = {
 };
 
 const TweetSettingButton = ({ tweetId, tweetContent, tweetType }: props) => {
+  const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const [openEditTweetForm, setOpenEditTweetForm] = useState(false);
   const [openDeleteTweetConfirmation, setOpenDeleteTweetConfirmation] =
@@ -64,7 +67,10 @@ const TweetSettingButton = ({ tweetId, tweetContent, tweetType }: props) => {
       {openDeleteTweetConfirmation && (
         <ConfirmPopUp
           text="Are you sure to delete this tweet? You cannot recover it"
-          action={() => setOpenDeleteTweetConfirmation(false)}
+          action={() => {
+            setOpenDeleteTweetConfirmation(false);
+            dispatch(deleteTweet({ tweetId, tweetType }));
+          }}
           onClose={() => setOpenDeleteTweetConfirmation(false)}
         />
       )}
