@@ -53,7 +53,6 @@ export const followUser = createAsyncThunk(
   "auth/followUser",
   async ({ from, to }: { from: string; to: string }, thunkApi) => {
     const response = await userApi.followUser({ from, to });
-
     return response;
   }
 );

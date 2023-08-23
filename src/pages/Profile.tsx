@@ -13,6 +13,7 @@ import {
   getWroteTweets,
 } from "../redux/actions/tweetAction";
 import EditProfileForm from "../components/Forms/EditProfileForm";
+import { followUser } from "../redux/actions/authAction";
 
 type ActiveTab = {
   Tweets: boolean;
@@ -62,6 +63,7 @@ const Profile = () => {
         setProfileUser(null);
       }
     }
+    console.log(profileUser);
   }, [user_id, user]);
 
   if (profileUser == null && user_id == null) {
@@ -96,7 +98,19 @@ const Profile = () => {
           <p className="text-gray-500">@{profileUser?.id}</p>
         </div>
         {user_id ? (
-          <PrimaryButton action={() => {}} text={"Follow"} />
+          <PrimaryButton
+            action={() => {
+              if (user && user_id)
+                dispatch(followUser({ from: user?.id, to: user_id }));
+            }}
+            text={
+              profileUser.followers.findIndex(
+                (follower) => follower.fromUserId == user?.id
+              ) == -1
+                ? "Follow"
+                : "Unfollow"
+            }
+          />
         ) : (
           <PrimaryButton
             action={() => {
@@ -107,19 +121,17 @@ const Profile = () => {
         )}
       </div>
 
-      <p className="mt-4">
-        {profileUser?.bio || "Update your profile for bio"}
-      </p>
+      <p className="my-4 font-mono">{profileUser?.bio || "No bio..."}</p>
       <div className="text-base ">
-        Joined at {profileUser?.createdAt.toLocaleString()}
+        Joined at {profileUser?.createdAt.toLocaleString().substring(0, 10)}
       </div>
       <div className="mt-4">
         <span className="mr-4">
-          <span className="font-semibold">120 </span>
+          <span className="font-semibold">{profileUser.followings.length}</span>
           <span className="font-light">Followings</span>
         </span>
         <span className="mr-4">
-          <span className="font-semibold">120 </span>
+          <span className="font-semibold">{profileUser.followers.length}</span>
           <span className="font-light">Followers</span>
         </span>
       </div>

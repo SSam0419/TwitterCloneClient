@@ -25,10 +25,16 @@ export interface User {
   email: string;
   bio: string;
   iconLink: string;
-  followers?: User[];
+  followings: FollowRelationship[];
+  followers: FollowRelationship[];
   createdAt: Date;
   updatedAt: Date;
 }
+
+type FollowRelationship = {
+  fromUserId: string;
+  toUserId: string;
+};
 
 export interface UserConfidentials {
   username: string;

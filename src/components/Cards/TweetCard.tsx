@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { likeTweet, bookmarkTweet } from "../../redux/actions/tweetAction";
 import TweetSettingButton from "../TweetSettingButton";
 import { TweetType } from "../../redux/reducers/tweetReducer";
+import { useNavigate } from "react-router-dom";
 
 type TweetCardProps = {
   tweet: Tweet;
@@ -21,6 +22,7 @@ const TweetCard: FC<TweetCardProps> = ({ tweet, tweetType }) => {
   const { user } = useAppSelector((state) => ({
     user: state.auth.user,
   }));
+  const navigate = useNavigate();
   const [showCommentForm, setShowCommentForm] = useState(false);
   const dispatch = useAppDispatch();
   const closeCommentForm = () => {
@@ -28,7 +30,10 @@ const TweetCard: FC<TweetCardProps> = ({ tweet, tweetType }) => {
   };
 
   return (
-    <div className="border-b flex gap-3 py-5 px-3 hover:bg-gray-200 cursor-pointer relative">
+    <div
+      className="border-b flex gap-3 py-5 px-3 hover:bg-gray-200 cursor-pointer relative"
+      onClick={() => navigate("/profile/" + tweet.author.id)}
+    >
       <div className="absolute top-1 right-0 mx-4">
         <TweetSettingButton
           tweetContent={tweet.content}
