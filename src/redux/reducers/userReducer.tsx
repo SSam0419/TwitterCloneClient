@@ -19,3 +19,21 @@ export const updateUserProfile = (
   const { userId, bio } = payload.payload;
   if (state.user) state.user.bio = bio;
 };
+
+export const followUser = (
+  state: WritableDraft<AuthState>,
+  payload: {
+    payload: {
+      to: string;
+    };
+    type: string;
+  }
+) => {
+  const { to } = payload.payload;
+  if (state.user) {
+    state.user.followings = [
+      { fromUserId: state.user.id, toUserId: to },
+      ...state.user.followings,
+    ];
+  }
+};

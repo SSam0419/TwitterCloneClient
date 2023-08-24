@@ -1,7 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import * as authApi from "../../api/AuthApi";
 import * as userApi from "../../api/UserApi";
-import { updateUserProfile as _updateUserProfile } from "../slices/authSlicer";
+import {
+  updateUserProfile as _updateUserProfile,
+  followUser as _followUser,
+} from "../slices/authSlicer";
 
 interface RegisterUserPayload {
   username: string;
@@ -52,6 +55,7 @@ export const verifyAccesToken = createAsyncThunk(
 export const followUser = createAsyncThunk(
   "auth/followUser",
   async ({ from, to }: { from: string; to: string }, thunkApi) => {
+    thunkApi.dispatch(_followUser({ to }));
     const response = await userApi.followUser({ from, to });
     return response;
   }

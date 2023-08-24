@@ -39,6 +39,15 @@ export const authSlicer = createSlice({
         type: string;
       }
     ) => reducer.updateUserProfile(state, payload),
+    followUser: (
+      state,
+      payload: {
+        payload: {
+          to: string;
+        };
+        type: string;
+      }
+    ) => reducer.followUser(state, payload),
   },
   extraReducers: (builder) => {
     builder.addCase(action.registerUser.pending, (state) => {
@@ -111,4 +120,4 @@ export const authSlicer = createSlice({
   },
 });
 
-export const { updateUserProfile } = authSlicer.actions;
+export const { updateUserProfile, followUser } = authSlicer.actions;
