@@ -143,6 +143,55 @@ export const editTweet = (
   }
 };
 
+export const addReTweet = (
+  state: WritableDraft<TweetState>,
+  payload: {
+    payload: {
+      tweetId: string;
+      userId: string;
+      tweetType: TweetType;
+    };
+    type: string;
+  }
+) => {
+  const { tweetId, userId, tweetType } = payload.payload;
+
+  let foundTweet;
+  switch (tweetType) {
+    case TweetType.HomeTweet:
+      foundTweet = state.allTweets.find((tweet) => tweet.tweetId === tweetId);
+      break;
+    case TweetType.ProfileBookmarkedTweet:
+      foundTweet = state.bookmarkedTweets.find(
+        (tweet) => tweet.tweetId === tweetId
+      );
+      break;
+    case TweetType.ProfileWroteTweet:
+      foundTweet = state.wroteTweets.find((tweet) => tweet.tweetId === tweetId);
+      break;
+
+    default:
+      break;
+  }
+  if (foundTweet) {
+    const foundBookmarkIndex = foundTweet.reTweet.findIndex(
+      (tb) => tb.reTweetedBy === userId
+    );
+
+    if (foundBookmarkIndex !== -1) {
+      foundTweet.reTweet.splice(foundBookmarkIndex, 1);
+    } else {
+      foundTweet.reTweet = [
+        {
+          tweetId: tweetId,
+          reTweetedBy: userId,
+        },
+        ...foundTweet.reTweet,
+      ];
+    }
+  }
+};
+
 export const addLikeCommentCount = (
   state: WritableDraft<TweetState>,
   payload: {

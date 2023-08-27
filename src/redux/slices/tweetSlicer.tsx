@@ -87,6 +87,17 @@ export const tweetSlicer = createSlice({
         type: string;
       }
     ) => reducer.addBookmarkCount(state, payload),
+    addReTweet: (
+      state,
+      payload: {
+        payload: {
+          tweetId: string;
+          userId: string;
+          tweetType: TweetType;
+        };
+        type: string;
+      }
+    ) => reducer.addReTweet(state, payload),
   },
 
   extraReducers: (builder) => {
@@ -202,6 +213,13 @@ export const tweetSlicer = createSlice({
 
       state.loading = false;
     });
+    builder.addCase(action.addReTweet.fulfilled, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        state.error = action.payload.response?.data;
+      }
+
+      state.loading = false;
+    });
   },
 });
 
@@ -211,4 +229,5 @@ export const {
   addBookmarkCount,
   editTweet,
   deleteTweet,
+  addReTweet,
 } = tweetSlicer.actions;

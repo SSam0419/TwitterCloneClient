@@ -29,10 +29,4 @@ export const SideBarLinks: SideBarLink[] = [
     icon: CgProfile,
     name: "Profile",
   },
-  //display message
-  {
-    link: "/message",
-    icon: BiSolidMessageRounded,
-    name: "Message",
-  },
 ];

@@ -106,8 +106,8 @@ export const authSlicer = createSlice({
     });
     builder.addCase(action.verifyAccesToken.fulfilled, (state, action) => {
       if (action.payload instanceof AxiosError) {
-        state.loginPageStatus = LoginPageStatus.LoginFailed;
-        state.error = action.payload.response?.data;
+        // state.loginPageStatus = LoginPageStatus.LoginFailed;
+        // state.error = action.payload.response?.data;
       } else {
         const { status, data } = action.payload;
         if (status === 200) {

@@ -8,7 +8,13 @@ export interface Tweet {
   comments: TweetComment[];
   likes: TweetLikes[];
   tweetBookmarks: TweetBookmarks[];
+  reTweet: ReTweet[];
 }
+
+export type ReTweet = {
+  tweetId: string;
+  reTweetedBy: string;
+};
 
 export type TweetLikes = {
   tweetId: string;

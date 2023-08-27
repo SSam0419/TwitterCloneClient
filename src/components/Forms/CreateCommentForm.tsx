@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import GlobalPopUp from "../Common/GlobalPopUp";
 import { ImCross } from "react-icons/im";
 import { useAppDispatch } from "../../redux/store";
@@ -12,6 +12,7 @@ type props = {
 
 const CreateCommentForm = ({ onClose, tweetId }: props) => {
   const dispatch = useAppDispatch();
+
   const [inputText, setInputText] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 

@@ -47,7 +47,7 @@ const CreateTweetForm = () => {
             ></textarea>
             <PrimaryButton action={handleSubmit} text={"Tweet"} />
           </form>
-          <div>toolbar</div>
+          {/* <div>toolbar</div> */}
         </div>
       </div>
     </div>

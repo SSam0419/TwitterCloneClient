@@ -8,10 +8,16 @@ import Icon from "../Common/Icon";
 import CreateCommentForm from "../Forms/CreateCommentForm";
 import TweetCommentCard from "./TweetCommentCard";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { likeTweet, bookmarkTweet } from "../../redux/actions/tweetAction";
+import {
+  likeTweet,
+  bookmarkTweet,
+  addReTweet,
+} from "../../redux/actions/tweetAction";
 import TweetSettingButton from "../TweetSettingButton";
 import { TweetType } from "../../redux/reducers/tweetReducer";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type TweetCardProps = {
   tweet: Tweet;
@@ -30,18 +36,19 @@ const TweetCard: FC<TweetCardProps> = ({ tweet, tweetType }) => {
   };
 
   return (
-    <div
-      className="border-b flex gap-3 py-5 px-3 hover:bg-gray-200 cursor-pointer relative"
-      onClick={() => navigate("/profile/" + tweet.author.id)}
-    >
-      <div className="absolute top-1 right-0 mx-4">
-        <TweetSettingButton
-          tweetContent={tweet.content}
-          tweetId={tweet.tweetId}
-          tweetType={tweetType}
-        />
+    <div className="border-b flex gap-3 py-5 px-3 hover:bg-gray-200 cursor-pointer relative">
+      {user && user.id == tweet.author.id && (
+        <div className="absolute top-1 right-0 mx-4">
+          <TweetSettingButton
+            tweetContent={tweet.content}
+            tweetId={tweet.tweetId}
+            tweetType={tweetType}
+          />
+        </div>
+      )}
+      <div onClick={() => navigate("/profile/" + tweet.author.id)}>
+        <Icon />
       </div>
-      <Icon />
       <div>
         <div className="flex  ">
           <div>
@@ -61,10 +68,26 @@ const TweetCard: FC<TweetCardProps> = ({ tweet, tweetType }) => {
         {/* content */}
         <div>{tweet.content}</div>
         {/* footer */}
+        <ToastContainer
+          position="top-center"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <div className="flex gap-1 pt-5">
           <div
             className="flex items-center justify-center w-10 h-10 rounded-full  hover:bg-gray-400 text-sky-500"
             onClick={() => {
+              if (user == null) {
+                toast.warn("you have to login to perform this action!");
+                return;
+              }
               setShowCommentForm(true);
             }}
           >
@@ -76,13 +99,31 @@ const TweetCard: FC<TweetCardProps> = ({ tweet, tweetType }) => {
               tweetId={tweet.tweetId}
             />
           )}
-          <div className="flex items-center justify-center w-10 h-10 rounded-full  hover:bg-gray-400 text-sky-500">
+          <div
+            className="flex items-center justify-center w-10 h-10 rounded-full  hover:bg-gray-400 text-sky-500 gap-2"
+            onClick={() => {
+              if (user == null) {
+                toast.warn("you have to login to perform this action!");
+                return;
+              }
+              if (user)
+                dispatch(
+                  addReTweet({
+                    tweetId: tweet.tweetId,
+                    userId: user?.id,
+                    tweetType,
+                  })
+                );
+            }}
+          >
+            {tweet.reTweet.length}
             <FaRetweet />
           </div>
           <div
             className="flex gap-2 items-center justify-center w-10 h-10 rounded-full  hover:bg-gray-400 text-sky-500"
             onClick={() => {
               if (user == null) {
+                toast.warn("you have to login to perform this action!");
                 return;
               }
               dispatch(
@@ -108,6 +149,7 @@ const TweetCard: FC<TweetCardProps> = ({ tweet, tweetType }) => {
             className="flex items-center justify-center w-10 h-10 rounded-full  hover:bg-gray-400 text-sky-500"
             onClick={() => {
               if (user == null) {
+                toast.warn("you have to login to perform this action!");
                 return;
               }
               dispatch(

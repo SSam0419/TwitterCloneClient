@@ -71,3 +71,17 @@ export const bookmarkTweet = async ({
   });
   return response;
 };
+
+export const addReTweet = async ({
+  tweetId,
+  userId,
+}: {
+  tweetId: string;
+  userId: string;
+}): Promise<AxiosResponse> => {
+  const response = await axios.post(domain + "AddReTweet", {
+    tweetId: tweetId,
+    userId,
+  });
+  return response;
+};

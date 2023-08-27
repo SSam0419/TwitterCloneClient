@@ -7,6 +7,7 @@ import {
   addLikeTweetCount,
   editTweet as _editTweet,
   deleteTweet as _deleteTweet,
+  addReTweet as _addReTweet,
 } from "../slices/tweetSlicer";
 import { TweetType } from "../reducers/tweetReducer";
 import { AxiosError } from "axios";
@@ -135,6 +136,22 @@ export const bookmarkTweet = createAsyncThunk(
   ) => {
     thunkApi.dispatch(addBookmarkCount({ tweetId, userId, tweetType }));
     const response = await TweetApi.bookmarkTweet({ tweetId, userId });
+    return response;
+  }
+);
+
+export const addReTweet = createAsyncThunk(
+  "tweet/addReTweet",
+  async (
+    {
+      tweetId,
+      userId,
+      tweetType,
+    }: { tweetId: string; userId: string; tweetType: TweetType },
+    thunkApi
+  ) => {
+    thunkApi.dispatch(_addReTweet({ tweetId, userId, tweetType }));
+    const response = await TweetApi.addReTweet({ tweetId, userId });
     return response;
   }
 );
