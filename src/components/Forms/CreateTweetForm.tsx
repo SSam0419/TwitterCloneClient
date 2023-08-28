@@ -1,12 +1,17 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { borderColor } from "../../constant/Colors";
-import { useAppDispatch } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { addTweet } from "../../redux/actions/tweetAction";
 import Icon from "../Common/Icon";
 import PrimaryButton from "../Common/PrimaryButton";
 
 const CreateTweetForm = () => {
   const dispatch = useAppDispatch();
+
+  const { user } = useAppSelector((state) => ({
+    user: state.auth.user,
+  }));
+
   const [inputText, setInputText] = useState("");
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -34,7 +39,7 @@ const CreateTweetForm = () => {
     <div className={`flex flex-col border-t ${borderColor}`}>
       <div className={`border-b flex gap-3 py-5 px-3 ${borderColor}`}>
         <div className=" ">
-          <Icon />
+          <Icon userId={`${user?.id}`} />
         </div>
         <div>
           <form className="w-11/12" onSubmit={handleSubmit}>

@@ -18,10 +18,12 @@ import { followUser } from "../redux/actions/authAction";
 type ActiveTab = {
   Tweets: boolean;
   Bookmarks: boolean;
+  RetweetTab: boolean;
 };
 const initialState: ActiveTab = {
   Tweets: false,
   Bookmarks: false,
+  RetweetTab: false,
 };
 const Profile = () => {
   const { user, wroteTweets, bookmarkedTweets } = useAppSelector((state) => ({
@@ -92,7 +94,7 @@ const Profile = () => {
         />
       )}
       <div className="flex items-center gap-3">
-        <Icon />
+        <Icon userId={profileUser.id} />
         <div>
           <h1 className="text-xl font-semibold">{profileUser?.username}</h1>
           <p className="text-gray-500">@{profileUser?.id}</p>
@@ -140,11 +142,15 @@ const Profile = () => {
           className={`
           ${
             activeTab.Tweets &&
-            "translate-x-0 w-[70px] transform transition-transform"
+            "translate-x-0 w-[60px] transform transition-transform"
           } 
           ${
             activeTab.Bookmarks &&
             "translate-x-[80px] w-[100px] transform transition-transform"
+          } 
+          ${
+            activeTab.RetweetTab &&
+            "translate-x-[200px] w-[100px] transform transition-transform"
           } 
           absolute top-[25px]  border-b-2  border-sky-500`}
         ></div>
@@ -155,10 +161,16 @@ const Profile = () => {
           Tweets
         </div>
         <div
-          className={`${activeTab.Bookmarks && "text-sky-500"} w-[100px]`}
+          className={`${activeTab.Bookmarks && "text-sky-500"} w-[120px]`}
           onClick={() => setActiveTab({ ...initialState, Bookmarks: true })}
         >
           Bookmarked
+        </div>
+        <div
+          className={`${activeTab.RetweetTab && "text-sky-500"} w-[120px]`}
+          onClick={() => setActiveTab({ ...initialState, RetweetTab: true })}
+        >
+          Retweeted
         </div>
       </div>
       {/* my posts */}

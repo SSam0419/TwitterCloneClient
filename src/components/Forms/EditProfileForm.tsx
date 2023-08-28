@@ -6,6 +6,7 @@ import GlobalPopUp from "../Common/GlobalPopUp";
 import { User } from "../../model/models";
 import Icon from "../Common/Icon";
 import { updateUserProfile } from "../../redux/actions/authAction";
+import { uploadImage } from "../../api/FileApi";
 
 type props = {
   user: User | null;
@@ -15,6 +16,7 @@ type props = {
 const EditProfileForm = ({ user, onClose }: props) => {
   const dispatch = useAppDispatch();
   const [bioContent, setBioContent] = useState<string>("");
+  const [uploadedIcon, setUploadedIcon] = useState<File | null>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const resizeTextArea = () => {
@@ -31,9 +33,12 @@ const EditProfileForm = ({ user, onClose }: props) => {
     setBioContent(event.target.value);
   };
 
-  const handleSubmitComment = async () => {
-    if (user)
+  const handleUpdatedBio = async () => {
+    if (user && bioContent.trim() !== "")
       dispatch(updateUserProfile({ userId: user!.id, bio: bioContent }));
+  };
+  const handleUploadImage = async () => {
+    if (user && uploadedIcon) uploadImage(uploadedIcon);
   };
 
   return (
@@ -50,15 +55,32 @@ const EditProfileForm = ({ user, onClose }: props) => {
           onSubmit={(e) => {
             e.preventDefault();
             if (bioContent.trim() !== "") {
-              handleSubmitComment();
+              handleUpdatedBio();
+              handleUploadImage();
               onClose();
             }
           }}
         >
-          <div className="flex items-center gap-3">
-            <Icon />
-            <label htmlFor="name">Name:</label>
-            <input id="name" placeholder=""></input>
+          <div className="flex items-center justify-start gap-20 w-full">
+            <Icon userId={user?.id || ""} />
+            <div className=" w-7/12 ">
+              <label htmlFor="uploadIcon">
+                <div className="w-full border rounded border-gray-800 p-3 hover:cursor-pointer">
+                  {uploadedIcon == null ? "Upload Icon" : uploadedIcon.name}
+                </div>
+                <input
+                  id="uploadIcon"
+                  type="file"
+                  className="hidden"
+                  onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                    if (event.target.files && event.target.files.length > 0) {
+                      const file = event.target.files[0];
+                      setUploadedIcon(file);
+                    }
+                  }}
+                ></input>
+              </label>
+            </div>
           </div>
 
           <div
@@ -81,7 +103,8 @@ const EditProfileForm = ({ user, onClose }: props) => {
           <PrimaryButton
             text={"Confirm"}
             action={() => {
-              handleSubmitComment();
+              handleUpdatedBio();
+              handleUploadImage();
               onClose();
             }}
           />

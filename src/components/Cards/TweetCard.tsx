@@ -47,7 +47,7 @@ const TweetCard: FC<TweetCardProps> = ({ tweet, tweetType }) => {
         </div>
       )}
       <div onClick={() => navigate("/profile/" + tweet.author.id)}>
-        <Icon />
+        <Icon userId={tweet.author.id} />
       </div>
       <div>
         <div className="flex  ">
