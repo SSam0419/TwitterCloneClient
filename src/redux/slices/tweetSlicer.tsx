@@ -10,6 +10,7 @@ export interface TweetState {
   allTweets: Tweet[];
   wroteTweets: Tweet[];
   bookmarkedTweets: Tweet[];
+  retweetedTweets: Tweet[];
   followingTweets: Tweet[] | null;
   tweetById: Tweet | null;
   modifiedTweet: Tweet | null;
@@ -24,6 +25,7 @@ export const tweetSlicer = createSlice({
     loading: false,
     allTweets: [],
     wroteTweets: [],
+    retweetedTweets: [],
     bookmarkedTweets: [],
     followingTweets: null,
     tweetById: null,
@@ -148,6 +150,18 @@ export const tweetSlicer = createSlice({
         console.log(data);
         if (status === 200) {
           state.wroteTweets = data;
+        }
+      }
+      state.loading = false;
+    });
+    builder.addCase(action.getRetweetedTweets.fulfilled, (state, action) => {
+      if (action.payload instanceof AxiosError) {
+        state.error = action.payload.response?.data;
+      } else {
+        const { status, data } = action.payload;
+        console.log(data);
+        if (status === 200) {
+          state.retweetedTweets = data;
         }
       }
       state.loading = false;

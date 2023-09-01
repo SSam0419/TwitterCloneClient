@@ -32,6 +32,14 @@ export const getBookmarkedTweets = createAsyncThunk(
   }
 );
 
+export const getRetweetedTweets = createAsyncThunk(
+  "tweet/getRetweetedTweetsByUserId",
+  async (userId: string) => {
+    const response = await TweetApi.getRetweetedTweetsByUserId(userId);
+    return response;
+  }
+);
+
 export const addTweet = createAsyncThunk(
   "tweet/addTweet",
   async (tweetContent: string) => {

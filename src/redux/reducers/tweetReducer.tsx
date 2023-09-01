@@ -9,6 +9,7 @@ export type WritableDraft<T> = {
 export enum TweetType {
   ProfileBookmarkedTweet,
   ProfileWroteTweet,
+  ProfileRetweetedTweet,
   HomeTweet,
 }
 
@@ -41,6 +42,11 @@ export const deleteTweet = (
         (tweet) => tweet.tweetId === tweetId
       );
       break;
+    case TweetType.ProfileRetweetedTweet:
+      tweetIndex = state.retweetedTweets.findIndex(
+        (tweet) => tweet.tweetId === tweetId
+      );
+      break;
     default:
       break;
   }
@@ -55,6 +61,9 @@ export const deleteTweet = (
         break;
       case TweetType.ProfileWroteTweet:
         state.wroteTweets.splice(tweetIndex, 1);
+        break;
+      case TweetType.ProfileRetweetedTweet:
+        state.retweetedTweets.splice(tweetIndex, 1);
         break;
       default:
         break;
@@ -84,6 +93,9 @@ export const addLikeTweetCount = (
       break;
     case TweetType.ProfileWroteTweet:
       tweet = state.wroteTweets.find((tweet) => tweet.tweetId === tweetId);
+      break;
+    case TweetType.ProfileRetweetedTweet:
+      tweet = state.retweetedTweets.find((tweet) => tweet.tweetId === tweetId);
       break;
 
     default:
@@ -140,6 +152,12 @@ export const editTweet = (
       );
       state.wroteTweets[tweetIndex] = updatedTweet;
       break;
+    case TweetType.ProfileRetweetedTweet:
+      tweetIndex = state.retweetedTweets.findIndex(
+        (tweet) => tweet.tweetId === updatedTweet.tweetId
+      );
+      state.wroteTweets[tweetIndex] = updatedTweet;
+      break;
   }
 };
 
@@ -169,6 +187,11 @@ export const addReTweet = (
     case TweetType.ProfileWroteTweet:
       foundTweet = state.wroteTweets.find((tweet) => tweet.tweetId === tweetId);
       break;
+    case TweetType.ProfileRetweetedTweet:
+      foundTweet = state.retweetedTweets.find(
+        (tweet) => tweet.tweetId === tweetId
+      );
+      break;
 
     default:
       break;
@@ -180,6 +203,11 @@ export const addReTweet = (
 
     if (foundBookmarkIndex !== -1) {
       foundTweet.reTweet.splice(foundBookmarkIndex, 1);
+      const checkTweetId = foundTweet.tweetId;
+      const retweetedIndex = state.retweetedTweets.findIndex(
+        (tweet) => tweet.tweetId === checkTweetId
+      );
+      state.retweetedTweets.splice(retweetedIndex, 1);
     } else {
       foundTweet.reTweet = [
         {
@@ -188,6 +216,7 @@ export const addReTweet = (
         },
         ...foundTweet.reTweet,
       ];
+      state.retweetedTweets = [foundTweet, ...state.retweetedTweets];
     }
   }
 };
@@ -218,6 +247,11 @@ export const addLikeCommentCount = (
       break;
     case TweetType.ProfileWroteTweet:
       foundTweet = state.wroteTweets.find((tweet) => tweet.tweetId === tweetId);
+      break;
+    case TweetType.ProfileRetweetedTweet:
+      foundTweet = state.retweetedTweets.find(
+        (tweet) => tweet.tweetId === tweetId
+      );
       break;
 
     default:
@@ -273,6 +307,11 @@ export const addBookmarkCount = (
       break;
     case TweetType.ProfileWroteTweet:
       foundTweet = state.wroteTweets.find((tweet) => tweet.tweetId === tweetId);
+      break;
+    case TweetType.ProfileRetweetedTweet:
+      foundTweet = state.retweetedTweets.find(
+        (tweet) => tweet.tweetId === tweetId
+      );
       break;
 
     default:

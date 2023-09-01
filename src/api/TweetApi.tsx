@@ -23,6 +23,13 @@ export const getBookmarkedTweetsByUserId = async (
   console.log(response);
   return response;
 };
+export const getRetweetedTweetsByUserId = async (
+  userId: string
+): Promise<AxiosResponse> => {
+  const response = await axios.get(domain + `GetRetweetedByUserId/${userId}`);
+  console.log(response);
+  return response;
+};
 
 export const createTweet = async (
   tweetContent: string

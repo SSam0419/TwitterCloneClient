@@ -10,6 +10,7 @@ import PrimaryButton from "../components/Common/PrimaryButton";
 import { TweetType } from "../redux/reducers/tweetReducer";
 import {
   getBookmarkedTweets,
+  getRetweetedTweets,
   getWroteTweets,
 } from "../redux/actions/tweetAction";
 import EditProfileForm from "../components/Forms/EditProfileForm";
@@ -26,11 +27,13 @@ const initialState: ActiveTab = {
   RetweetTab: false,
 };
 const Profile = () => {
-  const { user, wroteTweets, bookmarkedTweets } = useAppSelector((state) => ({
-    user: state.auth.user,
-    wroteTweets: state.tweet.wroteTweets,
-    bookmarkedTweets: state.tweet.bookmarkedTweets,
-  }));
+  const { user, wroteTweets, bookmarkedTweets, retweetedTweets } =
+    useAppSelector((state) => ({
+      user: state.auth.user,
+      wroteTweets: state.tweet.wroteTweets,
+      bookmarkedTweets: state.tweet.bookmarkedTweets,
+      retweetedTweets: state.tweet.retweetedTweets,
+    }));
   const dispatch = useAppDispatch();
   const { user_id } = useParams();
   const [profileUser, setProfileUser] = useState<User | null>();
@@ -51,6 +54,7 @@ const Profile = () => {
   const findUserSavedTweetsAndWroteTweets = (userId: string) => {
     dispatch(getWroteTweets(userId));
     dispatch(getBookmarkedTweets(userId));
+    dispatch(getRetweetedTweets(userId));
   };
 
   useEffect(() => {
@@ -193,6 +197,16 @@ const Profile = () => {
                   tweet={tweet}
                   key={idx}
                   tweetType={TweetType.ProfileBookmarkedTweet}
+                />
+              );
+            })}
+          {activeTab.RetweetTab &&
+            retweetedTweets?.map((tweet, idx) => {
+              return (
+                <TweetCard
+                  tweet={tweet}
+                  key={idx}
+                  tweetType={TweetType.ProfileRetweetedTweet}
                 />
               );
             })}
