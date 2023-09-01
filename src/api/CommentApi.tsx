@@ -2,7 +2,7 @@ import axios from "axios";
 import { DOMAIN } from "../constant/Url";
 
 const domain = DOMAIN + "api/Comment/";
-
+axios.defaults.withCredentials = true;
 export type addCommentBody = {
   tweetId: string;
   content: string;
