@@ -1,4 +1,3 @@
-import React from "react";
 import { DOMAIN } from "../../constant/Url";
 
 const Icon = ({ userId }: { userId: string }) => {

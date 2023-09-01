@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import LoginForm from "../components/Forms/LoginForm";
 import GlobalPopUp from "../components/Common/GlobalPopUp";
 import { useNavigate } from "react-router-dom";

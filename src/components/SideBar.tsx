@@ -1,7 +1,6 @@
-import { NavLink, useNavigate, useNavigation } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import { SideBarLink, SideBarLinks } from "../utilities/SideBarLinks";
-import ProfileCard from "./Cards/ProfileCard";
 import { borderColor } from "../constant/Colors";
 import { BiLogOut, BiLogIn } from "react-icons/bi";
 import { useAppDispatch, useAppSelector } from "../redux/store";

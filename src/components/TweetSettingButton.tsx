@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { useRef } from "react";
 import EditTweetForm from "./Forms/EditTweetForm";

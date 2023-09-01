@@ -1,4 +1,3 @@
-import React from "react";
 import GlobalPopUp from "./Common/GlobalPopUp";
 import { ImCross } from "react-icons/im";
 import PrimaryButton from "./Common/PrimaryButton";

@@ -1,6 +1,5 @@
 import { Draft } from "immer";
 import { AuthState } from "../slices/authSlicer";
-import { User } from "../../model/models";
 
 export type WritableDraft<T> = {
   -readonly [K in keyof T]: Draft<T[K]>;
@@ -16,7 +15,7 @@ export const updateUserProfile = (
     type: string;
   }
 ) => {
-  const { userId, bio } = payload.payload;
+  const { bio } = payload.payload;
   if (state.user) state.user.bio = bio;
 };
 
