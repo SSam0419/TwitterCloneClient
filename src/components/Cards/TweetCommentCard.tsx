@@ -26,7 +26,7 @@ const TweetCommentCard: FC<TweetCommentCardProps> = ({
   }));
   return (
     <div className="border-t flex gap-3 py-5 px-3 hover:bg-gray-200 cursor-pointer">
-      <Icon />
+      <Icon userId={userId || ""} />
       <div>
         <div className="flex  ">
           <div>
