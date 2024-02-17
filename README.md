@@ -3,6 +3,8 @@
 This is the frontend repository for a simple Twitter clone application built with React.js, TypeScript, Tailwind CSS, and Redux Toolkit. 
 Objective of this project is to practice react.js state management and styling with tailwindcss.
 
+This is the link to the Backend Repo : https://github.com/SSam0419/TwitterCloneApi
+
 ## Table of Contents
 
 - [Features](#features)
